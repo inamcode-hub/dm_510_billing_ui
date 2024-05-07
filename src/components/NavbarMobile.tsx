@@ -48,7 +48,9 @@ const Navbar = () => {
     >
       {/* Custom Navbar */}
       <AppBar position="fixed" 
-        sx={{  backgroundColor: '#222222', height:'50px' }}
+        sx={{  backgroundColor: '#222222', height:'50px' ,
+        boxShadow: 0, 
+         }}
       >
         <Toolbar  sx={{
             padding: '0 0px', // Adjust padding as needed
