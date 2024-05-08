@@ -6,27 +6,27 @@ const DropdownContent = () => {
     <Wrapper>
       <ul className="nav navbar-nav side-nav">
         <li className="active">
-          <a href="/users/dashboard">
+          <a href="https://my.dryermaster.com/users/dashboard">
             <AiOutlineDashboard /> Dashboard
           </a>
         </li>
         <li>
-          <a href="/users/charts">
+          <a href="https://my.dryermaster.com/users/charts">
             <FaChartBar /> Charts
           </a>
         </li>
         <li>
-          <a href="/users/history">
+          <a href="https://my.dryermaster.com/users/history">
             <FaHistory /> History
           </a>
         </li>
         <li>
-          <a href="/users/preferences">
+          <a href="https://my.dryermaster.com/users/preferences">
             <FaCog /> Preferences
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="https://my.dryermaster.com/users/dashboard">
             <FaPowerOff /> Log Out
           </a>
         </li>

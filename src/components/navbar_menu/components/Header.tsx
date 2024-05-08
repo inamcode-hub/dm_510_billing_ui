@@ -21,7 +21,9 @@ const Header: React.FC = () => {
       <Wrapper>
         <div className="header-content">
           <div className="logo">
-            <Link to="/">DM Mobile</Link>
+            <Link to="https://my.dryermaster.com/users/dashboard">
+              DM Mobile
+            </Link>
           </div>
           {width <= 768 && (
             <button className="icon" onClick={handleAction}>
