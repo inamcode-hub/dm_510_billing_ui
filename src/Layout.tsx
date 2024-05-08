@@ -36,6 +36,7 @@ const Wrapper = styled.div`
   }
   .drawer {
     .drawer-content {
+      width: 225px;
       @media (max-width: 768px) {
         display: none;
       }

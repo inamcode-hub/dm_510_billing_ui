@@ -50,7 +50,7 @@ const Wrapper = styled.div`
       line-height: 20px;
       align-items: center;
       @media (min-width: 768px) {
-        padding: 16px 15px;
+        padding: 15px 15px;
       }
 
       a {
