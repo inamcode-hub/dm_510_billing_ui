@@ -78,11 +78,10 @@ const Wrapper = styled.div`
     overflow-y: hidden;
     border-top: 1px solid #333;
     // box shadow top
-    padding: 0 15px;
   }
   .show-drop-down {
     transition: height 0.3s;
-    height: 150px;
+    height: 216px;
   }
   .hide-drop-down {
     transition: height 0.3s;
