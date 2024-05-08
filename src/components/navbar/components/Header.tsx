@@ -23,9 +23,11 @@ const Header: React.FC = () => {
           <div className="logo">
             <Link to="/">DM Mobile</Link>
           </div>
-          <button className="icon" onClick={handleAction}>
-            <MenuIcon style={{ color: "white", fontSize: 28 }} />
-          </button>
+          {width <= 768 && (
+            <button className="icon" onClick={handleAction}>
+              <MenuIcon style={{ color: "white", fontSize: 28 }} />
+            </button>
+          )}
         </div>
         <div
           className={
