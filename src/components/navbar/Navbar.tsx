@@ -1,7 +1,7 @@
 import React from "react";
 import useWindowSize from "../../lib/hooks/useWindowSize";
-import NavbarMobile from "./NavbarMobile";
-import NavbarDesktop from "./NavbarDesktop";
+import NavbarMobile from "./mobile/NavbarMobile";
+import NavbarDesktop from "./desktop/NavbarDesktop";
 
 const Navbar: React.FC = () => {
   const { width } = useWindowSize();
