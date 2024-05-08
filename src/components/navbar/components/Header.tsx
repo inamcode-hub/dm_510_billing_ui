@@ -10,7 +10,7 @@ const Header: React.FC = () => {
           <Link to="/">DM Mobile</Link>
         </div>
         <div className="icon">
-          <MenuIcon style={{ color: "white", fontSize: 30 }} />
+          <MenuIcon style={{ color: "white", fontSize: 28 }} />
         </div>
       </Wrapper>
     </React.Fragment>
@@ -37,8 +37,19 @@ const Wrapper = styled.div`
     }
   }
   .icon {
-    padding-right: 10px;
-    padding-top: 10px;
+    border: 1px solid #333;
+    border-radius: 2px;
+    margin: 10px;
+    padding: 5px;
+    margin-right: 15px;
+    margin-top: 8px;
+    :hover {
+      background-color: #333;
+    }
+
+    svg {
+      margin: -3px 2px -7px 3px;
+    }
   }
 `;
 export default Header;
