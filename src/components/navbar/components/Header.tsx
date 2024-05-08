@@ -1,15 +1,21 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import DropdownContent from "./DropdownContent";
+import useWindowSize from "../../../lib/hooks/useWindowSize";
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState(false);
+  const { width } = useWindowSize();
 
   const handleAction = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    if (width > 768) {
+      setOpen(false);
+    }
+  }, [width]);
   return (
     <React.Fragment>
       <Wrapper>
