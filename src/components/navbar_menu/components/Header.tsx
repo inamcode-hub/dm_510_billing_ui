@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import DropdownContent from "./DropdownContent";
-import useWindowSize from "../../../../lib/hooks/useWindowSize";
+import useWindowSize from "../../../lib/hooks/useWindowSize";
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const { width } = useWindowSize();
@@ -42,12 +42,12 @@ const Header: React.FC = () => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   .header-content {
     background-color: var(--menu-color);
     display: flex;
     justify-content: space-between;
     min-height: 50px;
+    position: sticky;
     .logo {
       a {
         float: left;

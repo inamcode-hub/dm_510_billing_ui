@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { FaChartBar, FaCog, FaHistory, FaPowerOff } from "react-icons/fa"; // Import the required icons
 import { AiOutlineDashboard } from "react-icons/ai";
-const MyComponent = () => {
+const DropdownContent = () => {
   return (
     <Wrapper>
       <ul className="nav navbar-nav side-nav">
@@ -37,7 +37,9 @@ const MyComponent = () => {
 
 const Wrapper = styled.div`
   ul {
-    margin-top: 7px;
+    @media (max-width: 768px) {
+      margin-top: 7px;
+    }
     li {
       padding-top: 10px;
       padding-bottom: 10px;
@@ -47,6 +49,9 @@ const Wrapper = styled.div`
       /* border-bottom: 1px solid #333; */
       line-height: 20px;
       align-items: center;
+      @media (min-width: 768px) {
+        padding: 16px 15px;
+      }
 
       a {
         color: var(--menu-text-color);
@@ -71,4 +76,4 @@ const Wrapper = styled.div`
     }
   }
 `;
-export default MyComponent;
+export default DropdownContent;
