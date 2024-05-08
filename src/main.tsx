@@ -4,9 +4,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import RoutesConfig from './RoutesConfig';
 import Provider from './lib/redux/Provider.tsx'
 import { ThemeProvider } from '@emotion/react'
-import theme from './lib/styles/theme.ts'
 import { GlobalStyles } from '@mui/system'
-import { globalStyles } from './lib/styles/GlobalStyles';
+import theme from './lib/styles/theme.ts'
+import { globalStyles } from './lib/styles/GlobalStyles.js';
+import './lib/styles/index.css'
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

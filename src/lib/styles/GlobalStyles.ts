@@ -7,11 +7,13 @@ export const globalStyles = {
     },
     body: {
       fontFamily: 'Roboto, Arial, sans-serif',
-      fontSize: '16px',
+      fontSize: '14px',
       // Add more global styles as needed
       backgroundColor: '#f0f2f5',
      //link
      
     },
+
+    
     
   };
