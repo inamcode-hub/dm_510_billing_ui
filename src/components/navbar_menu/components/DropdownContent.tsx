@@ -48,11 +48,20 @@ const Wrapper = styled.div`
 
       /* border-bottom: 1px solid #333; */
       line-height: 20px;
+      display: flex;
       align-items: center;
+      :hover {
+        cursor: pointer;
+      }
       @media (min-width: 768px) {
         padding: 15px 15px;
+        :hover {
+          background-color: #080808;
+          a {
+            color: #fff;
+          }
+        }
       }
-
       a {
         color: var(--menu-text-color);
         padding-left: 2px;
