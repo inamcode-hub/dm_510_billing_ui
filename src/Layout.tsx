@@ -42,7 +42,7 @@ const Wrapper = styled.div`
       }
       min-height: calc(100vh - 50px);
       position: sticky;
-      top: 50px;
+      top: 51px;
     }
   }
   .outlet {
