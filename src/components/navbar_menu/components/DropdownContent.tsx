@@ -71,7 +71,8 @@ const Wrapper = styled.div`
         }
         // icon
         svg {
-          margin-right: 1px;
+          margin-right: 3px;
+          margin-left: -2px;
           margin-bottom: -2px;
         }
       }
