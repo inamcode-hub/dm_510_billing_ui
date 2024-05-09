@@ -86,7 +86,7 @@ const Wrapper = styled.div`
     position: absolute;
     width: 100%;
     overflow-y: hidden;
-    border-top: 1px solid #333;
+    border-top: 1px solid #080808;
     // box shadow top
   }
   .show-drop-down {

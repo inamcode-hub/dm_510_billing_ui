@@ -5,12 +5,12 @@ const DropdownContent = () => {
   return (
     <Wrapper>
       <ul className="nav navbar-nav side-nav">
-        <li className="active">
+        <li>
           <a href="https://my.dryermaster.com/users/dashboard">
             <AiOutlineDashboard /> Dashboard
           </a>
         </li>
-        <li>
+        <li className="active">
           <a href="https://my.dryermaster.com/users/charts">
             <FaChartBar /> Charts
           </a>
@@ -36,13 +36,16 @@ const DropdownContent = () => {
 };
 
 const Wrapper = styled.div`
+  @media (max-width: 768px) {
+    border-top: 1px solid #333;
+  }
+
   ul {
     @media (max-width: 768px) {
-      margin-top: 8px;
+      margin-top: 7px;
     }
     margin-top: 1px;
     li {
-      /* border-bottom: 1px solid #333; */
       line-height: 20px;
       display: flex;
       align-items: center;
