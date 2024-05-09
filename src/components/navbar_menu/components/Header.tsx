@@ -48,7 +48,7 @@ const Wrapper = styled.div`
     background-color: var(--menu-color);
     display: flex;
     justify-content: space-between;
-    min-height: 50px;
+    height: 50px;
     position: sticky;
     .logo {
       a {

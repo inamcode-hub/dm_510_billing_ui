@@ -38,14 +38,10 @@ const DropdownContent = () => {
 const Wrapper = styled.div`
   ul {
     @media (max-width: 768px) {
-      margin-top: 7px;
+      margin-top: 8px;
     }
+    margin-top: 1px;
     li {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      padding-left: 15px;
-      padding-right: 15px;
-
       /* border-bottom: 1px solid #333; */
       line-height: 20px;
       display: flex;
@@ -53,26 +49,29 @@ const Wrapper = styled.div`
       :hover {
         cursor: pointer;
       }
-      @media (min-width: 768px) {
-        padding: 15px 15px;
-        :hover {
-          background-color: #080808;
-          a {
-            color: #fff;
-          }
-        }
-      }
+
       a {
         color: var(--menu-text-color);
         padding-left: 2px;
-
+        /* background-color: pink; */
+        width: 100%;
+        padding: 10px 15px;
+        margin-left: 3px;
+        @media (min-width: 768px) {
+          padding: 15px 15px;
+          :hover {
+            background-color: #080808;
+            a {
+              color: #fff;
+            }
+          }
+        }
         :hover {
           color: #fff;
         }
         // icon
         svg {
-          font-size: 14px;
-          margin-right: 2px;
+          margin-right: 1px;
           margin-bottom: -2px;
         }
       }
