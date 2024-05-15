@@ -24,7 +24,7 @@ const navItems = [
     label: 'Preferences',
   },
   {
-    href: 'https://my.dryermaster.com/billing',
+    href: import.meta.env.VITE_REDIRECT_URL_NAV,
     icon: <FaCreditCard />,
     label: 'Billing',
     active: true,
