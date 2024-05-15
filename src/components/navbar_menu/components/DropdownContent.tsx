@@ -1,33 +1,38 @@
-import styled from "@emotion/styled";
-import { FaChartBar, FaCog, FaHistory, FaPowerOff } from "react-icons/fa";
-import { AiOutlineDashboard } from "react-icons/ai";
-
+import styled from '@emotion/styled';
+import { FaChartBar, FaCog, FaHistory, FaPowerOff } from 'react-icons/fa';
+import { AiOutlineDashboard } from 'react-icons/ai';
+import { FaCreditCard } from 'react-icons/fa';
 const navItems = [
   {
-    href: "https://my.dryermaster.com/users/dashboard",
+    href: 'https://my.dryermaster.com/users/dashboard',
     icon: <AiOutlineDashboard />,
-    label: "Dashboard",
+    label: 'Dashboard',
   },
   {
-    href: "https://my.dryermaster.com/users/charts",
+    href: 'https://my.dryermaster.com/users/charts',
     icon: <FaChartBar />,
-    label: "Charts",
+    label: 'Charts',
+  },
+  {
+    href: 'https://my.dryermaster.com/users/history',
+    icon: <FaHistory />,
+    label: 'History',
+  },
+  {
+    href: 'https://my.dryermaster.com/users/preferences',
+    icon: <FaCog />,
+    label: 'Preferences',
+  },
+  {
+    href: 'https://my.dryermaster.com/billing',
+    icon: <FaCreditCard />,
+    label: 'Billing',
     active: true,
   },
   {
-    href: "https://my.dryermaster.com/users/history",
-    icon: <FaHistory />,
-    label: "History",
-  },
-  {
-    href: "https://my.dryermaster.com/users/preferences",
-    icon: <FaCog />,
-    label: "Preferences",
-  },
-  {
-    href: "https://my.dryermaster.com/users/dashboard",
+    href: 'https://my.dryermaster.com/users/dashboard',
     icon: <FaPowerOff />,
-    label: "Log Out",
+    label: 'Log Out',
   },
 ];
 
@@ -36,7 +41,7 @@ const DropdownContent = () => {
     <Wrapper>
       <ul>
         {navItems.map((item, index) => (
-          <li key={index} className={item.active ? "active" : ""}>
+          <li key={index} className={item.active ? 'active' : ''}>
             <a href={item.href}>
               {item.icon} {item.label}
             </a>

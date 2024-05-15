@@ -1,9 +1,9 @@
-import styled from "@emotion/styled";
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-import DropdownContent from "./DropdownContent";
-import useWindowSize from "../../../lib/hooks/useWindowSize";
+import styled from '@emotion/styled';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import DropdownContent from './DropdownContent';
+import useWindowSize from '../../../lib/hooks/useWindowSize';
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const { width } = useWindowSize();
@@ -27,13 +27,13 @@ const Header: React.FC = () => {
           </div>
           {width <= 768 && (
             <button className="icon" onClick={handleAction}>
-              <MenuIcon style={{ color: "white", fontSize: 28 }} />
+              <MenuIcon style={{ color: 'white', fontSize: 28 }} />
             </button>
           )}
         </div>
         <div
           className={
-            open ? "drop-down show-drop-down" : "drop-down hide-drop-down"
+            open ? 'drop-down show-drop-down' : 'drop-down hide-drop-down'
           }
         >
           <DropdownContent />
@@ -91,7 +91,7 @@ const Wrapper = styled.div`
   }
   .show-drop-down {
     transition: height 0.3s;
-    height: 216px;
+    height: 260px;
   }
   .hide-drop-down {
     transition: height 0.3s;
