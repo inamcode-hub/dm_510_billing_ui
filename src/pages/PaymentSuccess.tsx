@@ -2,12 +2,13 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentSuccess: React.FC = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const redirectToDashboard = () => {
-    // Assuming you're using something like react-router for navigation
-    // Use your routing logic here, e.g., history.push('/dashboard');
-    console.log('Redirecting to dashboard...');
+    navigate('/');
   };
 
   return (
@@ -35,7 +36,7 @@ const Container = styled('div')({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100vh',
+  height: 'calc(100vh - 80px)',
   backgroundColor: '#f3f4f6',
 });
 const Content = styled('div')({
