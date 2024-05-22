@@ -21,7 +21,7 @@ import * as Yup from 'yup';
 
 interface InitialState {
   email: string;
-  phone: string;
+  phone?: string;
 }
 const initialState: InitialState = {
   email: '',
@@ -109,6 +109,7 @@ const Profile: React.FC = () => {
                   <PhoneInputWrapper
                     international
                     defaultCountry="US"
+                    // @ts-ignore
                     value={values.phone}
                     onChange={(value) => setFieldValue('phone', value)}
                     style={{ width: '100%' }} // Ensures full width
