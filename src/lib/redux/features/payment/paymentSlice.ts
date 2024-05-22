@@ -4,6 +4,17 @@ import customFetch from '../../../helper/customFetch';
 
 // Define initial state
 interface PaymentState {
+  email: string;
+  phone: string;
+  // Address ----------------
+  apartment: string;
+  building: string;
+  street: string;
+  city: string;
+  country: string;
+  province: string;
+  postalCode: string;
+  // Pages states ------------
   showProfile: boolean;
   showPackage: boolean;
   showPayment: boolean;
@@ -12,6 +23,17 @@ interface PaymentState {
 }
 
 const initialState: PaymentState = {
+  email: '',
+  phone: '',
+  // Address ----------------
+  apartment: '',
+  building: '',
+  street: '',
+  city: '',
+  province: '',
+  country: '',
+  postalCode: '',
+  // Pages states ------------
   showProfile: true,
   showPackage: false,
   showPayment: false,
