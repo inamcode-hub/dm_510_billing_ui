@@ -35,7 +35,23 @@ export const fetchPaymentData = createAsyncThunk(
 const paymentSlice = createSlice({
   name: 'payment',
   initialState,
-  reducers: {},
+  reducers: {
+    setShowProfile: (state) => {
+      state.showProfile = true;
+      state.showPackage = false;
+      state.showPayment = false;
+    },
+    setShowPackage: (state) => {
+      state.showProfile = false;
+      state.showPackage = true;
+      state.showPayment = false;
+    },
+    setShowPayment: (state) => {
+      state.showProfile = false;
+      state.showPackage = false;
+      state.showPayment = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPaymentData.pending, (state) => {
@@ -53,3 +69,5 @@ const paymentSlice = createSlice({
 });
 
 export default paymentSlice.reducer;
+export const { setShowProfile, setShowPackage, setShowPayment } =
+  paymentSlice.actions;
