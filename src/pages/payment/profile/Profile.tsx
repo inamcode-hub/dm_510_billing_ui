@@ -1,45 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import NavigatePages from '../components/NavigatePages';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {
   Button,
   Card,
   CardContent,
   CardActions,
-  TextField,
   Typography,
+  TextField,
 } from '@mui/material';
+import NavigatePages from '../components/NavigatePages';
 import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
-import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
+const validationSchema = Yup.object({
+  email: Yup.string().email('Invalid email').required('Required'),
+  phone: Yup.string().required('Required'),
+});
+
+interface InitialState {
+  email: string;
+  phone: string;
+}
 const initialState = {
-  input: '',
+  email: '',
+  phone: '',
 };
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showProfile } = useSelector((state: any) => state.payment);
+  const { payment } = useSelector((state: any) => state);
+  const { showProfile } = payment;
 
-  const [state, setState] = useState(initialState);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (state.input.trim() === '') {
-      alert('Please enter your name');
-    } else {
-      // console.log('Form submitted with name:', state.input);
-      dispatch(setShowPackage());
-    }
+  const handleSubmit = (values: InitialState, actions: any) => {
+    console.log(
+      '🚀 ~ file: Profile.tsx ~ line 98 ~ handleSubmit ~ values',
+      values
+    );
+    dispatch(setShowPackage());
+    actions.setSubmitting(false);
   };
 
   useEffect(() => {
@@ -60,35 +61,61 @@ const Profile: React.FC = () => {
           padding: '20px',
         }}
       >
-        <form onSubmit={handleSubmit}>
-          <CardContent>
-            <Typography variant="h5" component="h2">
-              Profile
-            </Typography>
-            <TextField
-              id="input"
-              name="input"
-              label="Name"
-              placeholder="Enter your name"
-              fullWidth
-              margin="normal"
-              value={state.input}
-              onChange={onChange}
-              variant="outlined"
-              required
-            />
-          </CardContent>
-          <CardActions>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ marginLeft: 'auto' }}
-            >
-              Next
-            </Button>
-          </CardActions>
-        </form>
+        <Formik
+          initialValues={initialState as InitialState}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, isSubmitting }) => {
+            return (
+              <Form>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    Profile
+                  </Typography>
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    helperText={<ErrorMessage name="email" />}
+                    placeholder="Enter your email"
+                    margin="normal"
+                    variant="outlined"
+                    error={touched.email && Boolean(errors.email)}
+                    required
+                  />
+
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="phone"
+                    name="phone"
+                    label="Phone"
+                    helperText={<ErrorMessage name="phone" />}
+                    placeholder="Enter your phone number"
+                    margin="normal"
+                    variant="outlined"
+                    error={touched.phone && Boolean(errors.phone)}
+                    required
+                  />
+                </CardContent>
+                <CardActions>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    sx={{ marginLeft: 'auto' }}
+                    disabled={isSubmitting}
+                  >
+                    Next
+                  </Button>
+                </CardActions>
+              </Form>
+            );
+          }}
+        </Formik>
       </Card>
     </div>
   );
