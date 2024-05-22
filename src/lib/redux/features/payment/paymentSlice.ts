@@ -8,6 +8,7 @@ interface PaymentState {
   showPackage: boolean;
   showPayment: boolean;
   isLoading: boolean;
+  data?: any;
 }
 
 const initialState: PaymentState = {
