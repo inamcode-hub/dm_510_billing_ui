@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import NavigatePages from '../components/NavigatePages';
 
 const Payment: React.FC = () => {
   const { showPayment } = useSelector((state: any) => state.payment);
@@ -15,21 +16,8 @@ const Payment: React.FC = () => {
   return (
     <React.Fragment>
       <div>
+        <NavigatePages />
         <h1>Payment page</h1>
-        <ul>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/package">Package</Link>
-          </li>
-          <li>
-            <Link to="/payment">Payment</Link>
-          </li>
-          <li>
-            <Link to="/payment-success">Payment Success</Link>
-          </li>
-        </ul>
       </div>
     </React.Fragment>
   );
