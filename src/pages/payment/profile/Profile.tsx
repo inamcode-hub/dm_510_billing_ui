@@ -1,12 +1,17 @@
-import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const Home: React.FC = () => {
+const Profile: React.FC = () => {
+  const { showProfile } = useSelector((state: any) => state.payment);
+
+  useEffect(() => {
+    console.log('showProfile:', showProfile);
+  }, [showProfile]);
   return (
     <React.Fragment>
-      <Wrapper>
-        <h1>Home</h1>
+      <div>
+        <h1>Profile page</h1>
         <ul>
           <li>
             <Link to="/profile">Profile</Link>
@@ -21,12 +26,8 @@ const Home: React.FC = () => {
             <Link to="/payment-success">Payment Success</Link>
           </li>
         </ul>
-      </Wrapper>
+      </div>
     </React.Fragment>
   );
 };
-
-const Wrapper = styled.div`
-  min-height: 300vh;
-`;
-export default Home;
+export default Profile;

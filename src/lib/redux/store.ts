@@ -1,10 +1,12 @@
 // Import necessary modules
 import { configureStore } from '@reduxjs/toolkit';
 import sampleSlice from './features/sample/sampleSlice';
+import paymentSlice from './features/payment/paymentSlice';
 
 const store = configureStore({
   reducer: {
     sample: sampleSlice,
+    payment: paymentSlice,
   },
 });
 
