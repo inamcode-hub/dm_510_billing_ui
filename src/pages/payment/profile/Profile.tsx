@@ -17,6 +17,7 @@ import NavigatePages from '../components/NavigatePages';
 import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
 
 interface InitialState {
@@ -32,12 +33,19 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Required'),
   phone: Yup.string()
     .required('Required')
-    .matches(
-      /^\+[0-9]{1,3}[0-9]{1,14}$/,
-      'Invalid phone number. Example: +1234567890'
-    ),
+    .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
+      if (!value) return false;
+      try {
+        const phoneNumber = parsePhoneNumberFromString(value);
+        if (!phoneNumber || !phoneNumber.isValid()) {
+          return false;
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    }),
 });
-
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -115,8 +123,9 @@ const Profile: React.FC = () => {
                     style={{ width: '100%' }} // Ensures full width
                   />
                   <FormHelperText>
-                    Enter your phone number in international format (e.g.
-                    +1234567890)
+                    {touched.phone && errors.phone
+                      ? errors.phone
+                      : 'Enter your phone number in international format (e.g., +1234567890)'}
                   </FormHelperText>
                   <FormHelperText>
                     {touched.phone && errors.phone}
