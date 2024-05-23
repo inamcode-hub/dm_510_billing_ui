@@ -35,7 +35,7 @@ const initialState: PaymentState = {
   street: '',
   city: '',
   province: '',
-  country: '',
+  country: 'us',
   postalCode: '',
   showProfile: true,
   showPackage: false,
