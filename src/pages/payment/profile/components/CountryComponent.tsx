@@ -8,9 +8,10 @@ import Select, {
 } from 'react-select';
 import { Country, State, ICountry, IState } from 'country-state-city';
 import { useField, useFormikContext } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateState } from '../../../../lib/redux/features/payment/paymentSlice';
 import { styled } from '@mui/material';
+import { RootState } from '../../../../lib/redux/store';
 
 interface OptionType extends OptionTypeBase {
   label: string;
@@ -19,6 +20,9 @@ interface OptionType extends OptionTypeBase {
 
 const CountryComponent: React.FC = () => {
   const dispatch = useDispatch();
+  const { country, province } = useSelector(
+    (state: RootState) => state.payment
+  );
   const { setFieldValue, values } = useFormikContext<any>();
   const [field, meta] = useField('country');
   const [stateOptions, setStateOptions] = useState<OptionsType<OptionType>>([]);
@@ -60,6 +64,14 @@ const CountryComponent: React.FC = () => {
     }
   }, [values.country]);
 
+  useEffect(() => {
+    const countryInRedux = countryOptions.find(
+      (option: OptionType) => option.value === country?.toUpperCase()
+    );
+    if (countryInRedux) {
+      setFieldValue('country', countryInRedux.value);
+    }
+  }, []);
   return (
     <Wrapper>
       <Select<OptionType>
@@ -79,16 +91,16 @@ const CountryComponent: React.FC = () => {
         styles={customStyles}
       />
       <Select<OptionType>
-        id="state"
+        id="province"
         options={stateOptions}
-        name="state"
+        name="province"
         value={stateOptions.find(
           (option: OptionType) => option.value === values.state
         )}
         onChange={(option: OptionType | null) => {
-          setFieldValue('state', option ? option.value : '');
+          setFieldValue('province', option ? option.value : '');
           dispatch(
-            updateState({ key: 'state', value: option ? option.value : '' })
+            updateState({ key: 'province', value: option ? option.value : '' })
           );
         }}
         placeholder="Select your state or province"
