@@ -34,6 +34,7 @@ const CountryComponent: React.FC = () => {
   );
   const { setFieldValue, values } = useFormikContext<any>();
   const [_field, meta] = useField('country');
+  const [_field2, meta2] = useField('province');
   const [stateOptions, setStateOptions] = useState<OptionType[]>([]);
 
   const countryOptions: OptionType[] = Country.getAllCountries().map(
@@ -93,6 +94,11 @@ const CountryComponent: React.FC = () => {
         placeholder="Select your country"
         styles={customStyles}
       />
+      {meta.touched && meta.error && (
+        <div style={{ color: '#d32f2f', marginTop: '0.5rem' }}>
+          {meta.error}
+        </div>
+      )}
       <Select<OptionType>
         id="province"
         options={stateOptions}
@@ -111,8 +117,10 @@ const CountryComponent: React.FC = () => {
         isDisabled={!values.country}
         styles={customStyles}
       />
-      {meta.touched && meta.error && (
-        <div style={{ color: 'red', marginTop: '0.5rem' }}>{meta.error}</div>
+      {meta2.touched && meta2.error && (
+        <div style={{ color: '#d32f2f', marginTop: '0.5rem' }}>
+          {meta2.error}
+        </div>
       )}
     </Wrapper>
   );
@@ -124,6 +132,10 @@ const Wrapper = styled('div')({
   div: {
     marginTop: '0.3rem',
     marginBottom: '0.3rem',
+  },
+  // id province margin top
+  '#province': {
+    marginTop: '1.5rem',
   },
 });
 

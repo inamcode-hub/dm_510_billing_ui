@@ -56,7 +56,12 @@ const validationSchema = Yup.object({
         return false;
       }
     }),
+  building: Yup.string().required('Building is required'),
+  street: Yup.string().required('Street is required'),
+  city: Yup.string().required('City is required'),
   country: Yup.string().required('Country is required'),
+  province: Yup.string().required('Province is required'),
+  postalCode: Yup.string().required('Postal code is required'),
 });
 
 // Profile component
@@ -87,8 +92,28 @@ const Profile: React.FC = () => {
   // handle submit function
 
   const handleSubmit = (
-    _values: { email: string; phone: string },
-    actions: FormikHelpers<{ email: string; phone: string }>
+    _values: {
+      email: string;
+      phone: string;
+      building: string;
+      apartment: string;
+      street: string;
+      city: string;
+      province: string;
+      country: string;
+      postalCode: string;
+    },
+    actions: FormikHelpers<{
+      email: string;
+      phone: string;
+      building: string;
+      apartment: string;
+      street: string;
+      city: string;
+      province: string;
+      country: string;
+      postalCode: string;
+    }>
   ) => {
     dispatch(setShowPackage());
     actions.setSubmitting(false);
@@ -206,11 +231,14 @@ const Profile: React.FC = () => {
                     placeholder="Enter your building"
                     margin="normal"
                     variant="outlined"
+                    error={touched.building && Boolean(errors.building)}
+                    helperText={<ErrorMessage name="building" />}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('building', e.target.value);
                       handleChange('building', e.target.value);
                     }}
                   />
+
                   {/*  ============Street========== */}
                   <Field
                     as={TextField}
@@ -221,6 +249,8 @@ const Profile: React.FC = () => {
                     placeholder="Enter your street"
                     margin="normal"
                     variant="outlined"
+                    error={touched.street && Boolean(errors.street)}
+                    helperText={<ErrorMessage name="street" />}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('street', e.target.value);
                       handleChange('street', e.target.value);
@@ -236,28 +266,17 @@ const Profile: React.FC = () => {
                     placeholder="Enter your city"
                     margin="normal"
                     variant="outlined"
+                    error={touched.city && Boolean(errors.city)}
+                    helperText={<ErrorMessage name="city" />}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('city', e.target.value);
                       handleChange('city', e.target.value);
                     }}
                   />
                   {/*  ============Province========== */}
-                  <Field
-                    as={TextField}
-                    fullWidth
-                    id="province"
-                    name="province"
-                    label="Province"
-                    placeholder="Enter your province"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setFieldValue('province', e.target.value);
-                      handleChange('province', e.target.value);
-                    }}
-                  />
                   {/*  ============Country========== */}
                   <CountryComponent />
+
                   {/*  ============Postal Code========== */}
                   <Field
                     as={TextField}
@@ -268,6 +287,8 @@ const Profile: React.FC = () => {
                     placeholder="Enter your postal code"
                     margin="normal"
                     variant="outlined"
+                    error={touched.postalCode && Boolean(errors.postalCode)}
+                    helperText={<ErrorMessage name="postalCode" />}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('postalCode', e.target.value);
                       handleChange('postalCode', e.target.value);
