@@ -24,6 +24,7 @@ interface PaymentState extends Address, PageStates {
   phone: string;
   isLoading: boolean;
   data?: string | number | boolean;
+  state?: string;
 }
 
 const initialState: PaymentState = {
