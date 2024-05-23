@@ -41,21 +41,21 @@ type FormValueKey = keyof FormValues;
 // Form validation schema
 
 const validationSchema = Yup.object({
-  email: Yup.string().email('Invalid email').required('Required'),
-  phone: Yup.string()
-    .required('Required')
-    .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
-      if (!value) return false;
-      try {
-        const phoneNumber = parsePhoneNumberFromString(value);
-        if (!phoneNumber || !phoneNumber.isValid()) {
-          return false;
-        }
-        return true;
-      } catch {
-        return false;
-      }
-    }),
+  // email: Yup.string().email('Invalid email').required('Required'),
+  // phone: Yup.string()
+  //   .required('Required')
+  //   .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
+  //     if (!value) return false;
+  //     try {
+  //       const phoneNumber = parsePhoneNumberFromString(value);
+  //       if (!phoneNumber || !phoneNumber.isValid()) {
+  //         return false;
+  //       }
+  //       return true;
+  //     } catch {
+  //       return false;
+  //     }
+  //   }),
   country: Yup.string().required('Country is required'),
 });
 
@@ -152,7 +152,7 @@ const Profile: React.FC = () => {
                     margin="normal"
                     variant="outlined"
                     error={touched.email && Boolean(errors.email)}
-                    required
+                    // required
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('email', e.target.value);
                       handleChange('email', e.target.value);

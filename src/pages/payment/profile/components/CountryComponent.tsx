@@ -72,6 +72,7 @@ const CountryComponent: React.FC = () => {
       setFieldValue('country', countryInRedux.value);
     }
   }, []);
+
   return (
     <Wrapper>
       <Select<OptionType>
@@ -90,22 +91,28 @@ const CountryComponent: React.FC = () => {
         placeholder="Select your country"
         styles={customStyles}
       />
+      {/* ==========province========== */}
       <Select<OptionType>
         id="province"
         options={stateOptions}
         name="province"
-        value={stateOptions.find(
-          (option: OptionType) => option.value === values.state
-        )}
+        value={
+          province
+            ? stateOptions.find(
+                (option: OptionType) => option.value === province.toUpperCase()
+              )
+            : stateOptions.find(
+                (option: OptionType) => option.value === values.province
+              )
+        }
         onChange={(option: OptionType | null) => {
           setFieldValue('province', option ? option.value : '');
           dispatch(
             updateState({ key: 'province', value: option ? option.value : '' })
           );
         }}
-        placeholder="Select your state or province"
+        placeholder="Select your province"
         styles={customStyles}
-        isDisabled={!values.country}
       />
       {meta.touched && meta.error ? (
         <div style={{ color: 'red', marginTop: '0.5rem' }}>{meta.error}</div>
