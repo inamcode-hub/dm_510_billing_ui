@@ -22,6 +22,7 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
+import CountryComponent from './components/CountryComponent';
 
 // Type script definitions
 interface FormValues {
@@ -55,6 +56,7 @@ const validationSchema = Yup.object({
         return false;
       }
     }),
+  country: Yup.string().required('Country is required'),
 });
 
 // Profile component
@@ -177,9 +179,6 @@ const Profile: React.FC = () => {
                         ? errors.phone
                         : 'Enter your phone number in international format (e.g., +12345678900)'}
                     </FormHelperText>
-                    <FormHelperText>
-                      {touched.phone && errors.phone}
-                    </FormHelperText>
                   </FormControl>
 
                   {/*  ============Apartment========== */}
@@ -258,20 +257,7 @@ const Profile: React.FC = () => {
                     }}
                   />
                   {/*  ============Country========== */}
-                  <Field
-                    as={TextField}
-                    fullWidth
-                    id="country"
-                    name="country"
-                    label="Country"
-                    placeholder="Enter your country"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setFieldValue('country', e.target.value);
-                      handleChange('country', e.target.value);
-                    }}
-                  />
+                  <CountryComponent />
                   {/*  ============Postal Code========== */}
                   <Field
                     as={TextField}
@@ -294,7 +280,8 @@ const Profile: React.FC = () => {
                     variant="contained"
                     color="primary"
                     sx={{ marginLeft: 'auto' }}
-                    disabled={isSubmitting || !isValid}
+                    // disabled={isSubmitting || !isValid}
+                    disabled={isSubmitting}
                   >
                     Next
                   </Button>
