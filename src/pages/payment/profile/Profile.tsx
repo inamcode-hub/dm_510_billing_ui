@@ -14,20 +14,24 @@ import {
   styled,
 } from '@mui/material';
 import NavigatePages from '../components/NavigatePages';
-import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
+import {
+  setShowPackage,
+  updateState,
+} from '../../../lib/redux/features/payment/paymentSlice';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
+import { PaymentStateKey } from '../../../lib/redux/features/payment/paymentSlice'; // Import the missing type
 
-interface InitialState {
-  email: string;
-  phone?: string;
-}
-const initialState: InitialState = {
-  email: '',
-  phone: '',
-};
+// interface InitialState {
+//   email: string;
+//   phone?: string;
+// }
+// const initialState: InitialState = {
+//   email: '',
+//   phone: '',
+// };
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -50,7 +54,7 @@ const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { payment } = useSelector((state: any) => state);
-  const { showProfile } = payment;
+  const { showProfile, email, phone } = payment;
 
   useEffect(() => {
     if (!showProfile) {
@@ -58,11 +62,14 @@ const Profile: React.FC = () => {
     }
   }, [showProfile]);
 
+  const handleChange = (key: PaymentStateKey, value: any) => {
+    dispatch(updateState({ key, value }));
+  };
+
   const handleSubmit = (
-    values: InitialState,
-    actions: FormikHelpers<InitialState>
+    values: { email: string; phone: string },
+    actions: FormikHelpers<{ email: string; phone: string }>
   ) => {
-    console.log('Submitted Values:', values);
     dispatch(setShowPackage());
     actions.setSubmitting(false);
   };
@@ -80,7 +87,7 @@ const Profile: React.FC = () => {
         }}
       >
         <Formik
-          initialValues={initialState}
+          initialValues={{ email, phone }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -91,60 +98,69 @@ const Profile: React.FC = () => {
             touched,
             isSubmitting,
             isValid,
-          }) => (
-            <Form>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  Profile
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  id="email"
-                  name="email"
-                  label="Email"
-                  helperText={<ErrorMessage name="email" />}
-                  placeholder="Enter your email"
-                  margin="normal"
-                  variant="outlined"
-                  error={touched.email && Boolean(errors.email)}
-                  required
-                />
-                <FormControl
-                  fullWidth
-                  error={touched.phone && Boolean(errors.phone)}
-                >
-                  <PhoneInputWrapper
-                    international
-                    defaultCountry="US"
-                    // @ts-ignore
-                    value={values.phone}
-                    onChange={(value) => setFieldValue('phone', value)}
-                    style={{ width: '100%' }} // Ensures full width
+          }) => {
+            return (
+              <Form>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    Profile
+                  </Typography>
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    helperText={<ErrorMessage name="email" />}
+                    placeholder="Enter your email"
+                    margin="normal"
+                    variant="outlined"
+                    error={touched.email && Boolean(errors.email)}
+                    required
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('email', e.target.value);
+                      handleChange('email', e.target.value);
+                    }}
                   />
-                  <FormHelperText>
-                    {touched.phone && errors.phone
-                      ? errors.phone
-                      : 'Enter your phone number in international format (e.g., +1234567890)'}
-                  </FormHelperText>
-                  <FormHelperText>
-                    {touched.phone && errors.phone}
-                  </FormHelperText>
-                </FormControl>
-              </CardContent>
-              <CardActions>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{ marginLeft: 'auto' }}
-                  disabled={isSubmitting || !isValid}
-                >
-                  Next
-                </Button>
-              </CardActions>
-            </Form>
-          )}
+                  <FormControl
+                    fullWidth
+                    error={touched.phone && Boolean(errors.phone)}
+                  >
+                    <PhoneInputWrapper
+                      international
+                      defaultCountry="US"
+                      // @ts-ignore
+                      value={values.phone}
+                      onChange={(value) => {
+                        setFieldValue('phone', value);
+                        handleChange('phone', value);
+                      }}
+                      style={{ width: '100%' }} // Ensures full width
+                    />
+                    <FormHelperText>
+                      {touched.phone && errors.phone
+                        ? errors.phone
+                        : 'Enter your phone number in international format (e.g., +1234567890)'}
+                    </FormHelperText>
+                    <FormHelperText>
+                      {touched.phone && errors.phone}
+                    </FormHelperText>
+                  </FormControl>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    sx={{ marginLeft: 'auto' }}
+                    disabled={isSubmitting || !isValid}
+                  >
+                    Next
+                  </Button>
+                </CardActions>
+              </Form>
+            );
+          }}
         </Formik>
       </Card>
     </div>

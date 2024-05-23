@@ -1,6 +1,7 @@
 // Import necessary modules
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import customFetch from '../../../helper/customFetch';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 // Define initial state
 interface PaymentState {
@@ -19,8 +20,18 @@ interface PaymentState {
   showPackage: boolean;
   showPayment: boolean;
   isLoading: boolean;
-  data?: any;
+  data?: string | number | boolean;
 }
+
+type PaymentStateKey =
+  | 'showProfile'
+  | 'showPackage'
+  | 'showPayment'
+  | 'isLoading'
+  | 'data'
+  | 'email'
+  | 'phone';
+type UpdateStateActionPayload = { key: PaymentStateKey; value: any };
 
 const initialState: PaymentState = {
   email: '',
@@ -58,6 +69,14 @@ const paymentSlice = createSlice({
   name: 'payment',
   initialState,
   reducers: {
+    updateState: (
+      state: any,
+      { payload }: PayloadAction<UpdateStateActionPayload>
+    ) => {
+      if (payload.key in state) {
+        state[payload.key as keyof typeof state] = payload.value;
+      }
+    },
     setShowProfile: (state) => {
       state.showProfile = true;
       state.showPackage = false;
@@ -91,5 +110,7 @@ const paymentSlice = createSlice({
 });
 
 export default paymentSlice.reducer;
-export const { setShowProfile, setShowPackage, setShowPayment } =
+export const { updateState, setShowProfile, setShowPackage, setShowPayment } =
   paymentSlice.actions;
+
+export type { PaymentStateKey };
