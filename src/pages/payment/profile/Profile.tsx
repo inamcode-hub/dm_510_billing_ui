@@ -27,6 +27,13 @@ import * as Yup from 'yup';
 interface FormValues {
   email: string;
   phone: string;
+  apartment?: string;
+  building?: string;
+  street?: string;
+  city?: string;
+  province?: string;
+  country?: string;
+  postalCode?: string;
 }
 type FormValueKey = keyof FormValues;
 
@@ -56,7 +63,18 @@ const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { payment } = useSelector((state: any) => state);
-  const { showProfile, email, phone } = payment;
+  const {
+    showProfile,
+    email,
+    phone,
+    apartment,
+    building,
+    street,
+    city,
+    province,
+    country,
+    postalCode,
+  } = payment;
 
   // Handle change function
 
@@ -92,7 +110,17 @@ const Profile: React.FC = () => {
         }}
       >
         <Formik
-          initialValues={{ email, phone }}
+          initialValues={{
+            email,
+            phone,
+            apartment,
+            building,
+            street,
+            city,
+            province,
+            country,
+            postalCode,
+          }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -153,6 +181,112 @@ const Profile: React.FC = () => {
                       {touched.phone && errors.phone}
                     </FormHelperText>
                   </FormControl>
+
+                  {/*  ============Apartment========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="apartment"
+                    name="apartment"
+                    label="Apartment"
+                    placeholder="Enter your apartment"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('apartment', e.target.value);
+                      handleChange('apartment', e.target.value);
+                    }}
+                  />
+                  {/*  ============Building========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="building"
+                    name="building"
+                    label="Building"
+                    placeholder="Enter your building"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('building', e.target.value);
+                      handleChange('building', e.target.value);
+                    }}
+                  />
+                  {/*  ============Street========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="street"
+                    name="street"
+                    label="Street"
+                    placeholder="Enter your street"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('street', e.target.value);
+                      handleChange('street', e.target.value);
+                    }}
+                  />
+                  {/*  ============City========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="city"
+                    name="city"
+                    label="City"
+                    placeholder="Enter your city"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('city', e.target.value);
+                      handleChange('city', e.target.value);
+                    }}
+                  />
+                  {/*  ============Province========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="province"
+                    name="province"
+                    label="Province"
+                    placeholder="Enter your province"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('province', e.target.value);
+                      handleChange('province', e.target.value);
+                    }}
+                  />
+                  {/*  ============Country========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="country"
+                    name="country"
+                    label="Country"
+                    placeholder="Enter your country"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('country', e.target.value);
+                      handleChange('country', e.target.value);
+                    }}
+                  />
+                  {/*  ============Postal Code========== */}
+                  <Field
+                    as={TextField}
+                    fullWidth
+                    id="postalCode"
+                    name="postalCode"
+                    label="Postal Code"
+                    placeholder="Enter your postal code"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue('postalCode', e.target.value);
+                      handleChange('postalCode', e.target.value);
+                    }}
+                  />
                 </CardContent>
                 <CardActions>
                   <Button

@@ -71,7 +71,11 @@ const paymentSlice = createSlice({
     ) => {
       const { key, value } = action.payload;
       if (key in state) {
-        (state as any)[key] = value;
+        if (typeof value === 'string') {
+          (state as any)[key] = value.toLowerCase();
+        } else {
+          (state as any)[key] = value;
+        }
       }
     },
     setShowProfile: (state) => {
