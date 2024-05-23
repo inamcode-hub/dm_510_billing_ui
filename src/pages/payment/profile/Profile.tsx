@@ -22,16 +22,15 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
-import { PaymentStateKey } from '../../../lib/redux/features/payment/paymentSlice'; // Import the missing type
 
-// interface InitialState {
-//   email: string;
-//   phone?: string;
-// }
-// const initialState: InitialState = {
-//   email: '',
-//   phone: '',
-// };
+// Type script definitions
+interface FormValues {
+  email: string;
+  phone: string;
+}
+type FormValueKey = keyof FormValues;
+
+// Form validation schema
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -50,30 +49,38 @@ const validationSchema = Yup.object({
       }
     }),
 });
+
+// Profile component
+
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { payment } = useSelector((state: any) => state);
   const { showProfile, email, phone } = payment;
 
-  useEffect(() => {
-    if (!showProfile) {
-      navigate('/package');
-    }
-  }, [showProfile]);
+  // Handle change function
 
-  const handleChange = (key: PaymentStateKey, value: any) => {
+  const handleChange = (key: FormValueKey, value: any) => {
     dispatch(updateState({ key, value }));
   };
+
+  // handle submit function
 
   const handleSubmit = (
     values: { email: string; phone: string },
     actions: FormikHelpers<{ email: string; phone: string }>
   ) => {
+    // we are only dispatching the action here and not making any api call
+    console.log(values);
     dispatch(setShowPackage());
     actions.setSubmitting(false);
   };
 
+  useEffect(() => {
+    if (!showProfile) {
+      navigate('/package');
+    }
+  }, [showProfile]);
   return (
     <div>
       <NavigatePages />
@@ -105,6 +112,7 @@ const Profile: React.FC = () => {
                   <Typography variant="h5" component="h2">
                     Profile
                   </Typography>
+                  {/*  ============Email========== */}
                   <Field
                     as={TextField}
                     fullWidth
@@ -122,6 +130,7 @@ const Profile: React.FC = () => {
                       handleChange('email', e.target.value);
                     }}
                   />
+                  {/*  ============Phone========== */}
                   <FormControl
                     fullWidth
                     error={touched.phone && Boolean(errors.phone)}
@@ -140,7 +149,7 @@ const Profile: React.FC = () => {
                     <FormHelperText>
                       {touched.phone && errors.phone
                         ? errors.phone
-                        : 'Enter your phone number in international format (e.g., +1234567890)'}
+                        : 'Enter your phone number in international format (e.g., +12345678900)'}
                     </FormHelperText>
                     <FormHelperText>
                       {touched.phone && errors.phone}
