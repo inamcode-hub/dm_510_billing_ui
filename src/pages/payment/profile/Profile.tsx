@@ -67,11 +67,9 @@ const Profile: React.FC = () => {
   // handle submit function
 
   const handleSubmit = (
-    values: { email: string; phone: string },
+    _values: { email: string; phone: string },
     actions: FormikHelpers<{ email: string; phone: string }>
   ) => {
-    // we are only dispatching the action here and not making any api call
-    console.log(values);
     dispatch(setShowPackage());
     actions.setSubmitting(false);
   };
