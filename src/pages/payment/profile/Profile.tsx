@@ -132,7 +132,7 @@ const Profile: React.FC = () => {
             errors,
             touched,
             isSubmitting,
-            isValid,
+            // isValid,
           }) => {
             return (
               <Form>

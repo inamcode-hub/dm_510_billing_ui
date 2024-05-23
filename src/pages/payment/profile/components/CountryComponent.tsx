@@ -18,12 +18,19 @@ const CountryComponent: React.FC = () => {
 
   // Custom styles for react-select dropdown
   const customStyles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      borderColor: state.isFocused ? 'var(--primary)' : provided.borderColor,
+      '&:hover': {
+        borderColor: state.isFocused ? 'var(--primary)' : provided.borderColor,
+      },
+      boxShadow: state.isFocused ? `0 0 0 1px var(--primary)` : 'none', // Adds focus shadow matching Material-UI
+    }),
     menu: (provided: any) => ({
       ...provided,
       zIndex: 1000, // Ensuring the dropdown is above other content
     }),
   };
-
   const handleChange = (option: any) => {
     setFieldValue('country', option?.label);
     console.log(option);
@@ -49,7 +56,14 @@ const CountryComponent: React.FC = () => {
 };
 
 const Wrapper = styled('div')({
-  // select
+  // first child of the wrapper
+
+  marginTop: '1rem',
+  marginBottom: '.5rem',
+  div: {
+    marginTop: '0.3rem',
+    marginBottom: '0.3rem',
+  },
 });
 
 export default CountryComponent;
