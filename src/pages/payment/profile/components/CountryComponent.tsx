@@ -24,16 +24,15 @@ const CountryComponent: React.FC = () => {
       '&:hover': {
         borderColor: state.isFocused ? 'var(--primary)' : provided.borderColor,
       },
-      boxShadow: state.isFocused ? `0 0 0 1px var(--primary)` : 'none', // Adds focus shadow matching Material-UI
+      boxShadow: state.isFocused ? `0 0 0 1px var(--primary)` : 'none',
     }),
     menu: (provided: any) => ({
       ...provided,
-      zIndex: 1000, // Ensuring the dropdown is above other content
+      zIndex: 1000,
     }),
   };
   const handleChange = (option: any) => {
     setFieldValue('country', option?.label);
-    console.log(option);
     dispatch(updateState({ key: 'country', value: option?.label }));
   };
 
@@ -56,8 +55,6 @@ const CountryComponent: React.FC = () => {
 };
 
 const Wrapper = styled('div')({
-  // first child of the wrapper
-
   marginTop: '1rem',
   marginBottom: '.5rem',
   div: {

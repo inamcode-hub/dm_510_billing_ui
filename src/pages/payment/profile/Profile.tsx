@@ -100,9 +100,9 @@ const Profile: React.FC = () => {
     }
   }, [showProfile]);
   return (
-    <div>
+    <Wrapper>
       <NavigatePages />
-      <Card
+      <CardWrapper
         variant="outlined"
         sx={{
           width: '90%',
@@ -290,10 +290,22 @@ const Profile: React.FC = () => {
             );
           }}
         </Formik>
-      </Card>
-    </div>
+      </CardWrapper>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled('div')({
+  minHeight: '150vh',
+});
+
+const CardWrapper = styled(Card)({
+  overflow: 'visible', // This allows dropdowns to overlap the card boundaries
+  width: '90%',
+  margin: 'auto',
+  marginTop: '50px',
+  padding: '20px',
+});
 
 const PhoneInputWrapper = styled(PhoneInput)({
   width: '100%',
