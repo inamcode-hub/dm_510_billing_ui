@@ -22,7 +22,7 @@ interface PageStates {
 interface PaymentState extends Address, PageStates {
   email: string;
   phone: string;
-  packageName: string;
+  packageName: 'SingleDryermaster' | 'MultipleDryermaster | string';
   packagePrice: number;
   packageSerialNumber: number[];
   isLoading: boolean;
@@ -40,7 +40,7 @@ const initialState: PaymentState = {
   province: '',
   country: 'us',
   postalCode: '',
-  packageName: '',
+  packageName: 'SingleDryermaster',
   packagePrice: '' as any,
   packageSerialNumber: [],
   // by default, show the profile page first and hide the rest.
@@ -80,7 +80,7 @@ const paymentSlice = createSlice({
       const { key, value } = action.payload;
       if (key in state) {
         if (typeof value === 'string') {
-          (state as any)[key] = value.toLowerCase();
+          (state as any)[key] = value.trim();
         } else {
           (state as any)[key] = value;
         }

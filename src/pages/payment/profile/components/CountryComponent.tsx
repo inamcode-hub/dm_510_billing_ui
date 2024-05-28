@@ -39,7 +39,7 @@ const CountryComponent: React.FC = () => {
 
   const countryOptions: OptionType[] = Country.getAllCountries().map(
     (country: ICountry) => ({
-      value: country.isoCode.toLowerCase(), // Normalize values to lowercase
+      value: country.isoCode, // Normalize values to lowercase
       label: country.name,
     })
   );
@@ -49,7 +49,7 @@ const CountryComponent: React.FC = () => {
     const states = State.getStatesOfCountry(countryCode.toUpperCase()); // API expects uppercase ISO codes
     setStateOptions(
       states.map((state: IState) => ({
-        value: state.isoCode.toLowerCase(),
+        value: state.isoCode,
         label: state.name,
       }))
     );
@@ -57,13 +57,13 @@ const CountryComponent: React.FC = () => {
 
   useEffect(() => {
     // Normalize and set initial values from Redux state
-    if (country && values.country.toLowerCase() !== country.toLowerCase()) {
-      setFieldValue('country', country.toLowerCase());
+    if (country && values.country !== country) {
+      setFieldValue('country', country);
       loadStates(country);
     }
 
-    if (province && values.province.toLowerCase() !== province.toLowerCase()) {
-      setFieldValue('province', province.toLowerCase());
+    if (province && values.province !== province) {
+      setFieldValue('province', province);
     }
   }, [country, province, setFieldValue, values.country, values.province]);
 
@@ -81,12 +81,11 @@ const CountryComponent: React.FC = () => {
         options={countryOptions}
         name="country"
         value={
-          countryOptions.find(
-            (option) => option.value === values.country.toLowerCase()
-          ) || null
+          countryOptions.find((option) => option.value === values.country) ||
+          null
         }
         onChange={(option: OptionType | null) => {
-          const newValue = option ? option.value.toLowerCase() : '';
+          const newValue = option ? option.value : '';
           setFieldValue('country', newValue);
           dispatch(updateState({ key: 'country', value: newValue }));
           loadStates(newValue);
@@ -104,12 +103,11 @@ const CountryComponent: React.FC = () => {
         options={stateOptions}
         name="province"
         value={
-          stateOptions.find(
-            (option) => option.value === values.province.toLowerCase()
-          ) || null
+          stateOptions.find((option) => option.value === values.province) ||
+          null
         }
         onChange={(option: OptionType | null) => {
-          const newValue = option ? option.value.toLowerCase() : '';
+          const newValue = option ? option.value : '';
           setFieldValue('province', newValue);
           dispatch(updateState({ key: 'province', value: newValue }));
         }}

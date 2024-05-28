@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, FormikHelpers } from 'formik'; // Import FormikHelpers
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import {
   Button,
   Card,
@@ -9,6 +9,11 @@ import {
   CardActions,
   Typography,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
   styled,
 } from '@mui/material';
 import NavigatePages from '../components/NavigatePages';
@@ -18,16 +23,18 @@ import {
 } from '../../../lib/redux/features/payment/paymentSlice';
 import * as Yup from 'yup';
 
-// TypeScript definitions
-type FormValues = {
-  packageName: string;
+// Define the FormValues interface
+interface FormValues {
+  packageName: 'SingleDryermaster' | 'MultipleDryermaster';
   packagePrice: number;
-  packageSerialNumber: never[];
-};
+  packageSerialNumber: number[];
+}
 
-// Form validation schema
+// Define the validation schema
 const validationSchema = Yup.object({
-  packageName: Yup.string().required('Package name is required'),
+  packageName: Yup.string()
+    .oneOf(['SingleDryermaster', 'MultipleDryermaster'], 'Invalid package type')
+    .required('Package type is required'),
   packagePrice: Yup.number().required('Package price is required'),
   packageSerialNumber: Yup.array()
     .of(Yup.number())
@@ -38,17 +45,20 @@ const validationSchema = Yup.object({
 const Package: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPackage } = useSelector((state: any) => state.payment);
+  const { showPackage, packageName, packagePrice, packageSerialNumber } =
+    useSelector((state: any) => state.payment);
 
+  // Custom handleChange function
   const handleChange = (key: keyof FormValues, value: any) => {
+    console.log('Updating state', key, value);
     dispatch(updateState({ key, value }));
   };
 
   const handleSubmit = (
-    _values: FormValues,
+    values: FormValues,
     actions: FormikHelpers<FormValues>
   ) => {
-    console.log('values', _values);
+    console.log('Submitting form', values);
     dispatch(setShowProfile());
     actions.setSubmitting(false);
   };
@@ -58,15 +68,25 @@ const Package: React.FC = () => {
       navigate('/profile');
     }
   }, [showPackage, navigate]);
+
+  // price is calculated by package type and country code for conversion
+  useEffect(() => {
+    console.log('Package name changed', packageName);
+    if (packageName === 'SingleDryermaster') {
+      handleChange('packagePrice', 100);
+    } else if (packageName === 'MultipleDryermaster') {
+      handleChange('packagePrice', 200);
+    }
+  }, [packageName, handleChange]);
   return (
     <Wrapper>
       <NavigatePages />
       <CardWrapper variant="outlined">
         <Formik
           initialValues={{
-            packageName: '',
-            packagePrice: 0,
-            packageSerialNumber: [],
+            packageName: packageName || 'SingleDryermaster',
+            packagePrice: packagePrice || 0,
+            packageSerialNumber: packageSerialNumber || [],
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -75,23 +95,49 @@ const Package: React.FC = () => {
             <Form>
               <CardContent>
                 <Typography variant="h5">Package Details</Typography>
-                <TextField
-                  fullWidth
-                  id="packageName"
-                  name="packageName"
-                  label="Package Name"
-                  placeholder="Enter package name"
-                  margin="normal"
-                  variant="outlined"
-                  value={values.packageName}
-                  onChange={(e) => {
-                    setFieldValue('packageName', e.target.value);
-                    handleChange('packageName', e.target.value);
-                  }}
-                  error={touched.packageName && Boolean(errors.packageName)}
-                  helperText={touched.packageName && errors.packageName}
-                />
-                <TextField
+                <FormControl fullWidth margin="normal">
+                  <InputLabel
+                    id="package-name-label"
+                    sx={{
+                      backgroundColor: 'white',
+                      padding: '0px 5px',
+                    }}
+                  >
+                    Package Name
+                  </InputLabel>
+                  <Field
+                    as={Select}
+                    name="packageName"
+                    labelId="package-name-label"
+                    id="packageName"
+                    value={values.packageName}
+                    onChange={(
+                      e: React.ChangeEvent<{ name?: string; value: unknown }>
+                    ) => {
+                      const { name, value } = e.target;
+                      setFieldValue(name as keyof FormValues, value);
+                      handleChange(name as keyof FormValues, value);
+                    }}
+                    onBlur={() =>
+                      handleChange('packageName', values.packageName)
+                    }
+                    error={touched.packageName && Boolean(errors.packageName)}
+                  >
+                    <MenuItem value="SingleDryermaster">
+                      Single Dryermaster
+                    </MenuItem>
+                    <MenuItem value="MultipleDryermaster">
+                      Multiple Dryermaster
+                    </MenuItem>
+                  </Field>
+                  <FormHelperText>
+                    {touched.packageName && errors.packageName
+                      ? errors.packageName
+                      : ''}
+                  </FormHelperText>
+                </FormControl>
+                <Field
+                  as={TextField}
                   fullWidth
                   id="packagePrice"
                   name="packagePrice"
@@ -100,15 +146,21 @@ const Package: React.FC = () => {
                   placeholder="Enter package price"
                   margin="normal"
                   variant="outlined"
+                  disabled
                   value={values.packagePrice}
-                  onChange={(e) => {
-                    setFieldValue('packagePrice', parseFloat(e.target.value));
-                    handleChange('packagePrice', parseFloat(e.target.value));
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const { name, value } = e.target;
+                    setFieldValue(name as keyof FormValues, value);
+                    handleChange(name as keyof FormValues, parseFloat(value));
                   }}
+                  onBlur={() =>
+                    handleChange('packagePrice', values.packagePrice)
+                  }
                   error={touched.packagePrice && Boolean(errors.packagePrice)}
                   helperText={touched.packagePrice && errors.packagePrice}
                 />
-                <TextField
+                <Field
+                  as={TextField}
                   fullWidth
                   id="packageSerialNumber"
                   name="packageSerialNumber"
@@ -117,13 +169,19 @@ const Package: React.FC = () => {
                   margin="normal"
                   variant="outlined"
                   value={values.packageSerialNumber.join(', ')}
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const nums = e.target.value
                       .split(',')
                       .map((num) => parseInt(num.trim(), 10));
                     setFieldValue('packageSerialNumber', nums);
                     handleChange('packageSerialNumber', nums);
                   }}
+                  onBlur={() =>
+                    handleChange(
+                      'packageSerialNumber',
+                      values.packageSerialNumber
+                    )
+                  }
                   error={
                     touched.packageSerialNumber &&
                     Boolean(errors.packageSerialNumber)
