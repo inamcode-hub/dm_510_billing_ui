@@ -214,25 +214,32 @@ const Package: React.FC = () => {
                   {/* Display Country and Currency */}
 
                   {/* Display Package Price */}
-                  <Typography variant="h6">
-                    Package Price: {price} {currency}
-                  </Typography>
+                  <TextField
+                    label="Package Price"
+                    value={price + ' ' + currency}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    margin="normal"
+                    fullWidth
+                  />
 
                   <Box>
-                    <Typography variant="h6">Serial Numbers</Typography>
                     <Box display="flex" alignItems="center">
                       <TextField
-                        label="New Serial Number"
+                        label="Dryermaster Serial Number"
                         value={newSerialNumber}
                         onChange={(e) => setNewSerialNumber(e.target.value)}
                         margin="normal"
                         style={{ marginRight: '10px' }}
                         error={Boolean(serialNumberError)}
                         helperText={serialNumberError}
+                        fullWidth
                       />
                       <Button
                         variant="contained"
                         color="primary"
+                        sx={{ height: '58px', marginTop: '10px' }}
                         onClick={() => {
                           const newSerial = parseInt(
                             newSerialNumber.trim(),
