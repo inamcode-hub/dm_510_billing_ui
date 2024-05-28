@@ -22,11 +22,9 @@ interface PageStates {
 interface PaymentState extends Address, PageStates {
   email: string;
   phone: string;
-  package: {
-    name: string;
-    price: number;
-    serialNumber: number[];
-  };
+  packageName: string;
+  packagePrice: number;
+  packageSerialNumber: number[];
   isLoading: boolean;
   data?: string | number | boolean;
   state?: string;
@@ -42,11 +40,10 @@ const initialState: PaymentState = {
   province: '',
   country: 'us',
   postalCode: '',
-  package: {
-    name: '',
-    price: 0,
-    serialNumber: [],
-  },
+  packageName: '',
+  packagePrice: '' as any,
+  packageSerialNumber: [],
+  // by default, show the profile page first and hide the rest.
   showProfile: true,
   showPackage: false,
   showPayment: false,

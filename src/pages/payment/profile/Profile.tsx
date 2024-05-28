@@ -92,28 +92,8 @@ const Profile: React.FC = () => {
   // handle submit function
 
   const handleSubmit = (
-    _values: {
-      email: string;
-      phone: string;
-      building: string;
-      apartment: string;
-      street: string;
-      city: string;
-      province: string;
-      country: string;
-      postalCode: string;
-    },
-    actions: FormikHelpers<{
-      email: string;
-      phone: string;
-      building: string;
-      apartment: string;
-      street: string;
-      city: string;
-      province: string;
-      country: string;
-      postalCode: string;
-    }>
+    _values: FormValues,
+    actions: FormikHelpers<FormValues>
   ) => {
     dispatch(setShowPackage());
     actions.setSubmitting(false);
