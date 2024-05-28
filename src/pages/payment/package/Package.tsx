@@ -334,8 +334,7 @@ const Package: React.FC = () => {
                 </CardContent>
                 <CardActions
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'flex-end',
                   }}
                 >
                   <Button
