@@ -22,6 +22,11 @@ interface PageStates {
 interface PaymentState extends Address, PageStates {
   email: string;
   phone: string;
+  package: {
+    name: string;
+    price: number;
+    serialNumber: Array<string>;
+  };
   isLoading: boolean;
   data?: string | number | boolean;
   state?: string;
@@ -37,6 +42,11 @@ const initialState: PaymentState = {
   province: '',
   country: 'us',
   postalCode: '',
+  package: {
+    name: '',
+    price: 0,
+    serialNumber: [],
+  },
   showProfile: true,
   showPackage: false,
   showPayment: false,
