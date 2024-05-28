@@ -25,7 +25,7 @@ interface PaymentState extends Address, PageStates {
   package: {
     name: string;
     price: number;
-    serialNumber: Array<string>;
+    serialNumber: number[];
   };
   isLoading: boolean;
   data?: string | number | boolean;
