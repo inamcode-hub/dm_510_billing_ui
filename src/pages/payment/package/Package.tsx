@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import {
   Button,
   Card,
@@ -15,6 +15,8 @@ import {
   MenuItem,
   FormHelperText,
   styled,
+  Chip,
+  Box,
 } from '@mui/material';
 import NavigatePages from '../components/NavigatePages';
 import {
@@ -38,7 +40,11 @@ const validationSchema = Yup.object({
     .required('Package type is required'),
   packagePrice: Yup.number().required('Package price is required'),
   packageSerialNumber: Yup.array()
-    .of(Yup.number())
+    .of(
+      Yup.number()
+        .min(100, 'Serial number must be at least 3 digits')
+        .max(9999999999, 'Serial number must be at most 10 digits')
+    )
     .min(1, 'At least one serial number is required')
     .required('Serial number(s) are required'),
   country: Yup.string().required('Country is required'),
@@ -66,6 +72,9 @@ const Package: React.FC = () => {
     (state: any) => state.payment
   );
 
+  const [newSerialNumber, setNewSerialNumber] = useState('');
+  const [serialNumberError, setSerialNumberError] = useState('');
+
   // Function to get the currency based on the country
   const getCurrency = (country: string) => {
     switch (country) {
@@ -92,6 +101,18 @@ const Package: React.FC = () => {
     actions.setSubmitting(false);
   };
 
+  const handleDelete = (
+    serialNumber: number,
+    values: FormValues,
+    setFieldValue: any
+  ) => {
+    const updatedSerialNumbers = values.packageSerialNumber.filter(
+      (sn) => sn !== serialNumber
+    );
+    setFieldValue('packageSerialNumber', updatedSerialNumbers);
+    handleChange('packageSerialNumber', updatedSerialNumbers);
+  };
+
   useEffect(() => {
     if (!showPackage) {
       navigate('/profile');
@@ -105,9 +126,10 @@ const Package: React.FC = () => {
         <Formik
           initialValues={{
             packageName: packageName || 'SingleDryermaster',
-            packagePrice: (packagePrices[country || 'default'] as any)[
-              packageName || 'SingleDryermaster'
-            ],
+            packagePrice:
+              packagePrices[country || 'default'][
+                packageName || 'SingleDryermaster'
+              ],
             packageSerialNumber: [],
             country: country || 'US',
           }}
@@ -154,6 +176,19 @@ const Package: React.FC = () => {
                           (packagePrices[values.country] ||
                             packagePrices.default)[value as string]
                         );
+                        // If changing to SingleDryermaster, keep only the first serial number
+                        if (value === 'SingleDryermaster') {
+                          const updatedSerialNumbers =
+                            values.packageSerialNumber.slice(0, 1);
+                          setFieldValue(
+                            'packageSerialNumber',
+                            updatedSerialNumbers
+                          );
+                          handleChange(
+                            'packageSerialNumber',
+                            updatedSerialNumbers
+                          );
+                        }
                       }}
                       onBlur={() =>
                         handleChange('packageName', values.packageName)
@@ -167,7 +202,9 @@ const Package: React.FC = () => {
                         Multiple Dryermaster
                       </MenuItem>
                     </Field>
-                    <FormHelperText>
+                    <FormHelperText
+                      error={touched.packageName && Boolean(errors.packageName)}
+                    >
                       {touched.packageName && errors.packageName
                         ? errors.packageName
                         : ''}
@@ -175,45 +212,105 @@ const Package: React.FC = () => {
                   </FormControl>
 
                   {/* Display Country and Currency */}
-                  <Typography variant="h6">Country: {country}</Typography>
-                  <Typography variant="h6">Currency: {currency}</Typography>
 
                   {/* Display Package Price */}
                   <Typography variant="h6">
                     Package Price: {price} {currency}
                   </Typography>
 
-                  <Field
-                    as={TextField}
-                    fullWidth
-                    id="packageSerialNumber"
-                    name="packageSerialNumber"
-                    label="Serial Number"
-                    placeholder="Enter serial numbers separated by commas"
-                    margin="normal"
-                    variant="outlined"
-                    value={values.packageSerialNumber.join(', ')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const nums = e.target.value
-                        .split(',')
-                        .map((num) => parseInt(num.trim(), 10));
-                      setFieldValue('packageSerialNumber', nums);
-                      handleChange('packageSerialNumber', nums);
-                    }}
-                    onBlur={() =>
-                      handleChange(
-                        'packageSerialNumber',
-                        values.packageSerialNumber
-                      )
-                    }
-                    error={
-                      touched.packageSerialNumber &&
-                      Boolean(errors.packageSerialNumber)
-                    }
-                    helperText={
-                      touched.packageSerialNumber && errors.packageSerialNumber
-                    }
-                  />
+                  <Box>
+                    <Typography variant="h6">Serial Numbers</Typography>
+                    <Box display="flex" alignItems="center">
+                      <TextField
+                        label="New Serial Number"
+                        value={newSerialNumber}
+                        onChange={(e) => setNewSerialNumber(e.target.value)}
+                        margin="normal"
+                        style={{ marginRight: '10px' }}
+                        error={Boolean(serialNumberError)}
+                        helperText={serialNumberError}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          const newSerial = parseInt(
+                            newSerialNumber.trim(),
+                            10
+                          );
+                          if (
+                            isNaN(newSerial) ||
+                            newSerial < 100 ||
+                            newSerial > 9999999999
+                          ) {
+                            setSerialNumberError(
+                              'Serial number must be between 3 and 10 digits'
+                            );
+                          } else if (
+                            values.packageSerialNumber.includes(newSerial)
+                          ) {
+                            setSerialNumberError(
+                              'Duplicate serial number. Please enter a unique serial number.'
+                            );
+                          } else if (
+                            values.packageSerialNumber.length >=
+                            (values.packageName === 'SingleDryermaster'
+                              ? 1
+                              : 10)
+                          ) {
+                            setSerialNumberError(
+                              `Cannot add more than ${
+                                values.packageName === 'SingleDryermaster'
+                                  ? 1
+                                  : 10
+                              } serial numbers`
+                            );
+                          } else {
+                            setSerialNumberError('');
+                            setFieldValue('packageSerialNumber', [
+                              ...values.packageSerialNumber,
+                              newSerial,
+                            ]);
+                            handleChange('packageSerialNumber', [
+                              ...values.packageSerialNumber,
+                              newSerial,
+                            ]);
+                            setNewSerialNumber('');
+                          }
+                        }}
+                        disabled={
+                          values.packageSerialNumber.length >=
+                          (values.packageName === 'SingleDryermaster' ? 1 : 10)
+                        }
+                      >
+                        Add
+                      </Button>
+                    </Box>
+                    <Box mt={2}>
+                      {values.packageSerialNumber.map((serialNumber, index) => (
+                        <Chip
+                          key={index}
+                          label={serialNumber}
+                          onDelete={() =>
+                            handleDelete(serialNumber, values, setFieldValue)
+                          }
+                          style={{ marginRight: '10px', marginBottom: '10px' }}
+                        />
+                      ))}
+                    </Box>
+                    <FormHelperText
+                      error={
+                        touched.packageSerialNumber &&
+                        Boolean(errors.packageSerialNumber)
+                      }
+                    >
+                      {touched.packageSerialNumber && errors.packageSerialNumber
+                        ? typeof errors.packageSerialNumber === 'string'
+                          ? errors.packageSerialNumber
+                          : ''
+                        : ''}
+                    </FormHelperText>
+                  </Box>
                 </CardContent>
                 <CardActions>
                   <Button
