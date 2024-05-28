@@ -28,6 +28,7 @@ interface FormValues {
   packageName: 'SingleDryermaster' | 'MultipleDryermaster';
   packagePrice: number;
   packageSerialNumber: number[];
+  country: string;
 }
 
 // Define the validation schema
@@ -40,30 +41,30 @@ const validationSchema = Yup.object({
     .of(Yup.number())
     .min(1, 'At least one serial number is required')
     .required('Serial number(s) are required'),
+  country: Yup.string().required('Country is required'),
 });
+
+const packagePrices: Record<string, Record<string, number>> = {
+  US: {
+    SingleDryermaster: 99,
+    MultipleDryermaster: 119,
+  },
+  CA: {
+    SingleDryermaster: 134,
+    MultipleDryermaster: 164,
+  },
+  default: {
+    SingleDryermaster: 99,
+    MultipleDryermaster: 119,
+  },
+};
 
 const Package: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPackage, packageName, country, province } = useSelector(
+  const { showPackage, packageName, country } = useSelector(
     (state: any) => state.payment
   );
-
-  // Define package prices based on country and package type
-  const packagePrices = {
-    US: {
-      SingleDryermaster: 99,
-      MultipleDryermaster: 119,
-    },
-    CA: {
-      SingleDryermaster: 134,
-      MultipleDryermaster: 164,
-    },
-    default: {
-      SingleDryermaster: 99,
-      MultipleDryermaster: 119,
-    },
-  };
 
   // Function to get the currency based on the country
   const getCurrency = (country: string) => {
@@ -104,23 +105,22 @@ const Package: React.FC = () => {
         <Formik
           initialValues={{
             packageName: packageName || 'SingleDryermaster',
-            packagePrice:
-              packagePrices[country || 'default'][
-                packageName || 'SingleDryermaster'
-              ],
+            packagePrice: (packagePrices[country || 'default'] as any)[
+              packageName || 'SingleDryermaster'
+            ],
             packageSerialNumber: [],
+            country: country || 'US',
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           {({ setFieldValue, values, errors, touched, isSubmitting }) => {
             // Update package price based on packageName and country
-            const price = (packagePrices[country] || packagePrices.default)[
-              values.packageName
-            ];
+            const price = (packagePrices[values.country] ||
+              packagePrices.default)[values.packageName];
 
             // Update currency based on country
-            const currency = getCurrency(country);
+            const currency = getCurrency(values.country);
 
             return (
               <Form>
@@ -151,9 +151,8 @@ const Package: React.FC = () => {
                         // Update package price in Formik state
                         setFieldValue(
                           'packagePrice',
-                          (packagePrices[country] || packagePrices.default)[
-                            value as string
-                          ]
+                          (packagePrices[values.country] ||
+                            packagePrices.default)[value as string]
                         );
                       }}
                       onBlur={() =>
