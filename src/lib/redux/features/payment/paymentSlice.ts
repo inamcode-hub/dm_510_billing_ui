@@ -38,14 +38,14 @@ const initialState: PaymentState = {
   street: '',
   city: '',
   province: '',
-  country: 'us',
+  country: 'US',
   postalCode: '',
   packageName: 'SingleDryermaster',
-  packagePrice: '' as any,
+  packagePrice: 100,
   packageSerialNumber: [],
   // by default, show the profile page first and hide the rest.
-  showProfile: true,
-  showPackage: false,
+  showProfile: false,
+  showPackage: true,
   showPayment: false,
   isLoading: false,
 };
