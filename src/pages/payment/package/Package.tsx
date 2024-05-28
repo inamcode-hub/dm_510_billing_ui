@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import NavigatePages from '../components/NavigatePages';
 import {
+  setShowPayment,
   setShowProfile,
   updateState,
 } from '../../../lib/redux/features/payment/paymentSlice';
@@ -68,9 +69,13 @@ const packagePrices: Record<string, Record<string, number>> = {
 const Package: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPackage, packageName, country } = useSelector(
-    (state: any) => state.payment
-  );
+  const {
+    showPackage,
+    showProfile,
+    packageName,
+    country,
+    packageSerialNumber,
+  } = useSelector((state: any) => state.payment);
 
   const [newSerialNumber, setNewSerialNumber] = useState('');
   const [serialNumberError, setSerialNumberError] = useState('');
@@ -97,7 +102,7 @@ const Package: React.FC = () => {
     actions: FormikHelpers<FormValues>
   ) => {
     console.log('Submitting form', values);
-    dispatch(setShowProfile());
+    dispatch(setShowPayment());
     actions.setSubmitting(false);
   };
 
@@ -113,7 +118,15 @@ const Package: React.FC = () => {
     handleChange('packageSerialNumber', updatedSerialNumbers);
   };
 
+  const handleBack = () => {
+    dispatch(setShowProfile());
+  };
+
   useEffect(() => {
+    if (!showPackage && !showProfile) {
+      console.log('Navigating to payment page');
+      return navigate('/payment');
+    }
     if (!showPackage) {
       navigate('/profile');
     }
@@ -130,7 +143,7 @@ const Package: React.FC = () => {
               packagePrices[country || 'default'][
                 packageName || 'SingleDryermaster'
               ],
-            packageSerialNumber: [],
+            packageSerialNumber: packageSerialNumber || [],
             country: country || 'US',
           }}
           validationSchema={validationSchema}
@@ -319,7 +332,20 @@ const Package: React.FC = () => {
                     </FormHelperText>
                   </Box>
                 </CardContent>
-                <CardActions>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Button
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleBack}
+                  >
+                    Previous
+                  </Button>
                   <Button
                     type="submit"
                     variant="contained"

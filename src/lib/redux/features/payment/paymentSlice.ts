@@ -44,8 +44,8 @@ const initialState: PaymentState = {
   packagePrice: 100,
   packageSerialNumber: [],
   // by default, show the profile page first and hide the rest.
-  showProfile: false,
-  showPackage: true,
+  showProfile: true,
+  showPackage: false,
   showPayment: false,
   isLoading: false,
 };
