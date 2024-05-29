@@ -35,9 +35,21 @@ This application uses Stripe for payment processing. Depending on the user's loc
 
 ## Getting Started
 
+## Getting Started
+
 1. Clone the repository.
 2. Install dependencies with `npm install`.
-3. Create a `.env` file in the root directory and fill it with your environment variables.
+3. Create a `.env` file in the root directory. This file should contain the following environment variables:
+
+   ```plaintext
+   VITE_REDIRECT_URL_NAV=<your-redirect-url>
+   VITE_STRIPE_KEY=<your-stripe-key-for-Canada>
+   VITE_STRIPE_KEY_US=<your-stripe-key-for-US>
+   VITE_API_URL=<your-api-base-url>
+   ```
+
+   Replace `<your-redirect-url>`, `<your-stripe-key-for-Canada>`, `<your-stripe-key-for-US>`, and `<your-api-base-url>` with your actual values.
+
 4. Start the development server with `npm start`.
 
 ## Contributing
