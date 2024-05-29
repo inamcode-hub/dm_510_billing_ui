@@ -25,6 +25,7 @@ import {
   updateState,
 } from '../../../lib/redux/features/payment/paymentSlice';
 import * as Yup from 'yup';
+import SerialNumberHelp from './components/SerialNumberHelp';
 
 // Define the FormValues interface
 interface FormValues {
@@ -221,7 +222,7 @@ const Package: React.FC = () => {
                     margin="normal"
                     fullWidth
                   />
-
+                  <SerialNumberHelp />
                   <Box>
                     <Box display="flex" alignItems="center">
                       <TextField
