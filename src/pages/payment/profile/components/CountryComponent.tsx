@@ -74,6 +74,18 @@ const CountryComponent: React.FC = () => {
     }
   }, [values.country]);
 
+  useEffect(() => {
+    if (values.country && values.province) {
+      const states = State.getStatesOfCountry(values.country.toUpperCase());
+      const state = states.find(
+        (state: IState) => state.isoCode === values.province
+      );
+      if (!state) {
+        setFieldValue('province', '');
+        dispatch(updateState({ key: 'province', value: '' }));
+      }
+    }
+  }, [values.province, values.country, country, setFieldValue, dispatch]);
   return (
     <Wrapper>
       <Select<OptionType>
