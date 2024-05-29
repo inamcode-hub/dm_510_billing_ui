@@ -77,7 +77,6 @@ const StripeElement: React.FC = () => {
 
   return (
     <Wrapper>
-      <h1>StripeElement</h1>
       <StyledForm onSubmit={handleSubmit}>
         <Label>
           Card Number
