@@ -8,6 +8,7 @@ import {
 } from '@stripe/react-stripe-js';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const ELEMENT_OPTIONS = {
   style: {
@@ -28,6 +29,8 @@ const ELEMENT_OPTIONS = {
 };
 
 const StripeElement: React.FC = () => {
+  const { payment } = useSelector((state: any) => state);
+
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = React.useState(false);
@@ -51,13 +54,16 @@ const StripeElement: React.FC = () => {
       const { id } = paymentMethod;
       try {
         setLoading(true);
-        const response = await fetch('/your-server-endpoint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ paymentMethodId: id }),
-        });
+        const response = await fetch(
+          import.meta.env.VITE_API_URL + '/payment',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentMethodId: id, payment }),
+          }
+        );
 
         const responseData = await response.json();
         if (response.ok) {
