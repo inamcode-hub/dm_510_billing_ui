@@ -298,7 +298,7 @@ const Profile: React.FC = () => {
 };
 
 const Wrapper = styled('div')({
-  minHeight: '150vh',
+  minHeight: '120vh',
 });
 
 const CardWrapper = styled(Card)({
