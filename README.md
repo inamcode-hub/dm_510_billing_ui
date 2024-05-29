@@ -35,8 +35,6 @@ This application uses Stripe for payment processing. Depending on the user's loc
 
 ## Getting Started
 
-## Getting Started
-
 1. Clone the repository.
 2. Install dependencies with `npm install`.
 3. Create a `.env` file in the root directory. This file should contain the following environment variables:
