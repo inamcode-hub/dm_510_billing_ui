@@ -98,10 +98,9 @@ const Package: React.FC = () => {
   };
 
   const handleSubmit = (
-    values: FormValues,
+    _values: FormValues,
     actions: FormikHelpers<FormValues>
   ) => {
-    console.log('Submitting form', values);
     dispatch(setShowPayment());
     actions.setSubmitting(false);
   };

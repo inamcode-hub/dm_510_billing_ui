@@ -19,7 +19,9 @@ const initialState = {
 const Payment: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPayment } = useSelector((state: any) => state.payment);
+  const { showPayment, showProfile } = useSelector(
+    (state: any) => state.payment
+  );
 
   const [state, setState] = useState(initialState);
 
@@ -45,7 +47,9 @@ const Payment: React.FC = () => {
   };
 
   useEffect(() => {
-    // if showPayment page is true show the payment otherwise redirect to the package
+    if (!showPayment && !showProfile) {
+      return navigate('/package');
+    }
     if (!showPayment) {
       navigate('/profile');
     }
