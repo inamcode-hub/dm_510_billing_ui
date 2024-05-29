@@ -49,7 +49,3 @@ This application uses Stripe for payment processing. Depending on the user's loc
    Replace `<your-redirect-url>`, `<your-stripe-key-for-Canada>`, `<your-stripe-key-for-US>`, and `<your-api-base-url>` with your actual values.
 
 4. Start the development server with `npm start`.
-
-## Contributing
-
-Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) to get started.
