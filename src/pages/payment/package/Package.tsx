@@ -122,6 +122,7 @@ const Package: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!showPackage && !showProfile) {
       console.log('Navigating to payment page');
       return navigate('/payment');
