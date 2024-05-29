@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
+import AmountCalculator from './components/AmountCalculator';
 
 const initialState = {
   input: '',
@@ -72,6 +73,8 @@ const Payment: React.FC = () => {
               <Typography variant="h5" component="h2">
                 Payment page
               </Typography>
+              {/* ===========Amount calculator=========== */}
+              <AmountCalculator />
               <TextField
                 id="input"
                 name="input"
