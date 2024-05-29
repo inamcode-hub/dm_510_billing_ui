@@ -359,6 +359,7 @@ const CardWrapper = styled(Card)({
   margin: 'auto',
   marginTop: '50px',
   padding: '20px',
+  maxWidth: '600px',
 });
 
 export default Package;

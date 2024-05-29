@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import NavigatePages from '../components/NavigatePages';
@@ -11,29 +11,45 @@ import {
 } from '@mui/material';
 import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
 import AmountCalculator from './components/AmountCalculator';
+import StripeElement from './components/StripeElement';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 const Payment: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPayment, showProfile } = useSelector(
+  const { showPayment, showProfile, country } = useSelector(
     (state: any) => state.payment
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-  const handleBack = () => {
-    dispatch(setShowPackage());
-  };
+  const [stripePromise, setStripePromise] =
+    useState<Promise<Stripe | null> | null>(null);
 
   useEffect(() => {
     if (!showPayment && !showProfile) {
-      return navigate('/package');
+      navigate('/package');
+      return;
     }
     if (!showPayment) {
       navigate('/profile');
     }
-  }, [showPayment]);
+
+    const getStripeKey = () => {
+      const isCanada = country === 'CA';
+      // vite project env
+      const key = import.meta.env.VITE_STRIPE_KEY;
+      return isCanada ? key : import.meta.env.VITE_STRIPE_KEY_US;
+    };
+
+    const stripeKey = getStripeKey();
+    console.log('stripeKey', stripeKey);
+    setStripePromise(loadStripe(stripeKey));
+  }, [showPayment, showProfile, navigate]);
+
+  const handleBack = () => {
+    dispatch(setShowPackage());
+  };
+
   return (
     <React.Fragment>
       <div>
@@ -45,36 +61,33 @@ const Payment: React.FC = () => {
             margin: 'auto',
             marginTop: '50px',
             padding: '20px',
+            maxWidth: '600px',
           }}
         >
-          <form onSubmit={handleSubmit}>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                Payment page
-              </Typography>
-              {/* ===========Amount calculator=========== */}
-              <AmountCalculator />
-            </CardContent>
-            <CardActions>
-              <Button
-                type="button"
-                variant="contained"
-                color="primary"
-                sx={{ marginLeft: 'auto' }}
-                onClick={handleBack}
-              >
-                Previous
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ marginLeft: 'auto' }}
-              >
-                Next
-              </Button>
-            </CardActions>
-          </form>
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              Payment page
+            </Typography>
+            {/* ===========Amount calculator=========== */}
+            <AmountCalculator />
+            {/* ===========Stripe Element============ */}
+            {stripePromise && (
+              <Elements stripe={stripePromise}>
+                <StripeElement />
+              </Elements>
+            )}
+          </CardContent>
+          <CardActions>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              sx={{ marginLeft: 'auto' }}
+              onClick={handleBack}
+            >
+              Previous
+            </Button>
+          </CardActions>
         </Card>
       </div>
     </React.Fragment>

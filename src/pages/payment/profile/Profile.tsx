@@ -114,6 +114,7 @@ const Profile: React.FC = () => {
           margin: 'auto',
           marginTop: '50px',
           padding: '20px',
+          maxWidth: '600px',
         }}
       >
         <Formik
