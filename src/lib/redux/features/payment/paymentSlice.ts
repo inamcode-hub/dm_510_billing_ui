@@ -28,6 +28,7 @@ interface PaymentState extends Address, PageStates {
   isLoading: boolean;
   data?: string | number | boolean;
   state?: string;
+  packagePrices: Record<string, Record<string, number>>;
 }
 
 const initialState: PaymentState = {
@@ -43,6 +44,20 @@ const initialState: PaymentState = {
   packageName: 'SingleDryermaster',
   packagePrice: 100,
   packageSerialNumber: [],
+  packagePrices: {
+    US: {
+      SingleDryermaster: 99,
+      MultipleDryermaster: 119,
+    },
+    CA: {
+      SingleDryermaster: 134,
+      MultipleDryermaster: 164,
+    },
+    default: {
+      SingleDryermaster: 99,
+      MultipleDryermaster: 119,
+    },
+  },
   // by default, show the profile page first and hide the rest.
   showProfile: true,
   showPackage: false,

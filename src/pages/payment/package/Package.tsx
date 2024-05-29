@@ -51,21 +51,6 @@ const validationSchema = Yup.object({
   country: Yup.string().required('Country is required'),
 });
 
-const packagePrices: Record<string, Record<string, number>> = {
-  US: {
-    SingleDryermaster: 99,
-    MultipleDryermaster: 119,
-  },
-  CA: {
-    SingleDryermaster: 134,
-    MultipleDryermaster: 164,
-  },
-  default: {
-    SingleDryermaster: 99,
-    MultipleDryermaster: 119,
-  },
-};
-
 const Package: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,6 +60,7 @@ const Package: React.FC = () => {
     packageName,
     country,
     packageSerialNumber,
+    packagePrices,
   } = useSelector((state: any) => state.payment);
 
   const [newSerialNumber, setNewSerialNumber] = useState('');
