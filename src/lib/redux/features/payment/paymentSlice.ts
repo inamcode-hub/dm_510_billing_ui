@@ -60,8 +60,8 @@ const initialState: PaymentState = {
   },
   // by default, show the profile page first and hide the rest.
   showProfile: false,
-  showPackage: true,
-  showPayment: false,
+  showPackage: false,
+  showPayment: true,
   isLoading: false,
 };
 

@@ -13,10 +13,6 @@ import {
 import { setShowPackage } from '../../../lib/redux/features/payment/paymentSlice';
 import AmountCalculator from './components/AmountCalculator';
 
-const initialState = {
-  input: '',
-};
-
 const Payment: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,24 +20,8 @@ const Payment: React.FC = () => {
     (state: any) => state.payment
   );
 
-  const [state, setState] = useState(initialState);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (state.input.trim() === '') {
-      alert('Please enter your name');
-    } else {
-      // console.log('Form submitted with name:', state.input);
-      alert('Payment successful');
-    }
   };
   const handleBack = () => {
     dispatch(setShowPackage());
@@ -75,18 +55,6 @@ const Payment: React.FC = () => {
               </Typography>
               {/* ===========Amount calculator=========== */}
               <AmountCalculator />
-              <TextField
-                id="input"
-                name="input"
-                label="Name"
-                placeholder="Enter your name"
-                fullWidth
-                margin="normal"
-                value={state.input}
-                onChange={onChange}
-                variant="outlined"
-                required
-              />
             </CardContent>
             <CardActions>
               <Button
