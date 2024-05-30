@@ -155,7 +155,7 @@ const Package: React.FC = () => {
             return (
               <Form>
                 <CardContent>
-                  <Typography variant="h5">Package Details</Typography>
+                  <Typography variant="h5">Pick a Package</Typography>
                   <FormControl fullWidth margin="normal">
                     <InputLabel
                       id="package-name-label"

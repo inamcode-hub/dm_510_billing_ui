@@ -66,7 +66,7 @@ const Payment: React.FC = () => {
         >
           <CardContent>
             <Typography variant="h5" component="h2">
-              Payment page
+              Payment Information
             </Typography>
             {/* ===========Amount calculator=========== */}
             <AmountCalculator />
