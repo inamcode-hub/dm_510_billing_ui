@@ -153,6 +153,8 @@ const Profile: React.FC = () => {
                   {/*  ============Phone========== */}
                   <FormControl
                     fullWidth
+                    margin="normal"
+                    variant="outlined"
                     error={touched.phone && Boolean(errors.phone)}
                   >
                     <PhoneInputWrapper
@@ -163,6 +165,9 @@ const Profile: React.FC = () => {
                       <PhoneInput
                         international
                         defaultCountry="US"
+                        placeholder="Enter phone number"
+                        id="phone"
+                        name="phone"
                         // @ts-ignore
                         value={values.phone}
                         onChange={(value) => {

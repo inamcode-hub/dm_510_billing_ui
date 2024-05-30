@@ -76,8 +76,8 @@ const CountryComponent: React.FC = () => {
     <Wrapper>
       <CustomSelect
         id="country"
-        options={countryOptions}
         name="country"
+        options={countryOptions}
         value={
           countryOptions.find((option) => option.value === values.country) ||
           null
@@ -98,8 +98,8 @@ const CountryComponent: React.FC = () => {
       )}
       <CustomSelect
         id="province"
-        options={stateOptions}
         name="province"
+        options={stateOptions}
         value={
           stateOptions.find((option) => option.value === values.province) ||
           null
