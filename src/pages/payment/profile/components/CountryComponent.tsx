@@ -114,7 +114,14 @@ const CountryComponent: React.FC = () => {
         hasError={meta2.touched && !!meta2.error}
       />
       {meta2.touched && meta2.error && (
-        <div style={{ color: '#d32f2f', marginTop: '0.5rem' }}>
+        <div
+          style={{
+            color: '#d32f2f',
+            marginTop: '0.5rem',
+            marginLeft: '0.8rem',
+            fontSize: '0.8rem',
+          }}
+        >
           {meta2.error}
         </div>
       )}
