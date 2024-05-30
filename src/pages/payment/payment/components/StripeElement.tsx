@@ -9,6 +9,7 @@ import {
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const ELEMENT_OPTIONS = {
   style: {
@@ -67,17 +68,23 @@ const StripeElement: React.FC = () => {
 
         const responseData = await response.json();
         if (response.ok) {
-          console.log('Payment successful:', responseData.message);
+          console.log('Payment successful:', responseData?.message);
+          toast.success(responseData?.message);
         } else {
-          console.error('Payment error:', responseData.message);
+          console.error('Payment error:', responseData?.message);
+          toast.error(responseData?.message);
         }
         setLoading(false);
       } catch (error) {
-        console.error('Payment error:', error);
+        console.error('Server Error:', error);
+        toast.error(
+          'Server Error. Please try again later or contact support for help with this issue if it persists.'
+        );
         setLoading(false);
       }
     } else {
-      console.error('Stripe error:', error);
+      console.error('Stripe Front end error:', error);
+      toast.error(error?.message);
     }
   };
 
