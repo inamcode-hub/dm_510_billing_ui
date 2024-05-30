@@ -118,6 +118,13 @@ const Package: React.FC = () => {
     }
   }, [showPackage, navigate]);
 
+  // Ensure packagePrices is defined and has the expected structure
+  const getDefaultPackagePrice = (country: string, packageName: string) => {
+    const defaultPrices = packagePrices.default || {};
+    const countryPrices = packagePrices[country] || defaultPrices;
+    return countryPrices[packageName] || defaultPrices[packageName] || 0;
+  };
+
   return (
     <Wrapper>
       <NavigatePages />
@@ -125,10 +132,10 @@ const Package: React.FC = () => {
         <Formik
           initialValues={{
             packageName: packageName || 'SingleDryermaster',
-            packagePrice:
-              packagePrices[country || 'default'][
-                packageName || 'SingleDryermaster'
-              ],
+            packagePrice: getDefaultPackagePrice(
+              country || 'default',
+              packageName || 'SingleDryermaster'
+            ),
             packageSerialNumber: packageSerialNumber || [],
             country: country || 'US',
           }}
@@ -137,8 +144,10 @@ const Package: React.FC = () => {
         >
           {({ setFieldValue, values, errors, touched, isSubmitting }) => {
             // Update package price based on packageName and country
-            const price = (packagePrices[values.country] ||
-              packagePrices.default)[values.packageName];
+            const price = getDefaultPackagePrice(
+              values.country,
+              values.packageName
+            );
 
             // Update currency based on country
             const currency = getCurrency(values.country);
@@ -172,8 +181,10 @@ const Package: React.FC = () => {
                         // Update package price in Formik state
                         setFieldValue(
                           'packagePrice',
-                          (packagePrices[values.country] ||
-                            packagePrices.default)[value as string]
+                          getDefaultPackagePrice(
+                            values.country,
+                            value as string
+                          )
                         );
                         // If changing to SingleDryermaster, keep only the first serial number
                         if (value === 'SingleDryermaster') {
