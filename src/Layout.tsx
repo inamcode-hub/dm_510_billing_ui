@@ -1,10 +1,10 @@
 // Import necessary modules
-import React from "react";
-import { Outlet } from "react-router-dom";
-import useWindowSize from "./lib/hooks/useWindowSize";
-import styled from "@emotion/styled";
-import Navbar from "./components/navbar_menu/Navbar";
-import DropdownContent from "./components/navbar_menu/components/DropdownContent";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import useWindowSize from './lib/hooks/useWindowSize';
+import styled from '@emotion/styled';
+import Navbar from './components/navbar_menu/Navbar';
+import DropdownContent from './components/navbar_menu/components/DropdownContent';
 const Layout: React.FC = () => {
   const { width } = useWindowSize();
   return (
