@@ -41,9 +41,9 @@ type FormValueKey = keyof FormValues;
 // Form validation schema
 
 const validationSchema = Yup.object({
-  email: Yup.string().email('Invalid email').required('Required'),
+  email: Yup.string().email('Invalid email').required('Email is Required'),
   phone: Yup.string()
-    .required('Required')
+    .required('Phone number is Required')
     .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
       if (!value) return false;
       try {
