@@ -40,9 +40,9 @@ type FormValueKey = keyof FormValues;
 
 // Form validation schema
 const validationSchema = Yup.object({
-  email: Yup.string().email('Invalid email').required('Email is Required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
   phone: Yup.string()
-    .required('Phone number is Required')
+    .required('Phone number is required')
     .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
       if (!value || value === '+') return false; // Ensure the value is not empty or only a '+'
       try {
