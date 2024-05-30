@@ -11,8 +11,8 @@ import {
   TextField,
   FormControl,
   FormHelperText,
-  styled,
 } from '@mui/material';
+import styled from '@emotion/styled';
 import NavigatePages from '../components/NavigatePages';
 import {
   setShowPackage,
@@ -24,7 +24,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
 import CountryComponent from './components/CountryComponent';
 
-// Type script definitions
+// TypeScript definitions
 interface FormValues {
   email: string;
   phone: string;
@@ -39,19 +39,15 @@ interface FormValues {
 type FormValueKey = keyof FormValues;
 
 // Form validation schema
-
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Email is Required'),
   phone: Yup.string()
     .required('Phone number is Required')
     .test('isValidPhoneNumber', 'Phone number is not valid', (value) => {
-      if (!value) return false;
+      if (!value || value === '+') return false; // Ensure the value is not empty or only a '+'
       try {
         const phoneNumber = parsePhoneNumberFromString(value);
-        if (!phoneNumber || !phoneNumber.isValid()) {
-          return false;
-        }
-        return true;
+        return phoneNumber ? phoneNumber.isValid() : false;
       } catch {
         return false;
       }
@@ -65,7 +61,6 @@ const validationSchema = Yup.object({
 });
 
 // Profile component
-
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,13 +79,11 @@ const Profile: React.FC = () => {
   } = payment;
 
   // Handle change function
-
   const handleChange = (key: FormValueKey, value: any) => {
     dispatch(updateState({ key, value }));
   };
 
   // handle submit function
-
   const handleSubmit = (
     _values: FormValues,
     actions: FormikHelpers<FormValues>
@@ -104,6 +97,7 @@ const Profile: React.FC = () => {
       navigate('/package');
     }
   }, [showProfile]);
+
   return (
     <Wrapper>
       <NavigatePages />
@@ -132,14 +126,7 @@ const Profile: React.FC = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({
-            setFieldValue,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-            // isValid,
-          }) => {
+          {({ setFieldValue, values, errors, touched, isSubmitting }) => {
             return (
               <Form>
                 <CardContent>
@@ -158,7 +145,6 @@ const Profile: React.FC = () => {
                     margin="normal"
                     variant="outlined"
                     error={touched.email && Boolean(errors.email)}
-                    // required
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('email', e.target.value);
                       handleChange('email', e.target.value);
@@ -171,18 +157,21 @@ const Profile: React.FC = () => {
                   >
                     <PhoneInputWrapper
                       hasError={
-                        (touched.phone && Boolean(errors.phone)) || false
+                        touched.phone && Boolean(errors.phone) ? true : false
                       }
-                      international
-                      defaultCountry="US"
-                      // @ts-ignore
-                      value={values.phone}
-                      onChange={(value) => {
-                        setFieldValue('phone', value);
-                        handleChange('phone', value);
-                      }}
-                      style={{ width: '100%' }}
-                    />
+                    >
+                      <PhoneInput
+                        international
+                        defaultCountry="US"
+                        // @ts-ignore
+                        value={values.phone}
+                        onChange={(value) => {
+                          setFieldValue('phone', value);
+                          handleChange('phone', value);
+                        }}
+                        style={{ width: '100%' }}
+                      />
+                    </PhoneInputWrapper>
                     <FormHelperText>
                       {touched.phone && errors.phone
                         ? errors.phone
@@ -285,7 +274,6 @@ const Profile: React.FC = () => {
                     variant="contained"
                     color="primary"
                     sx={{ marginLeft: 'auto' }}
-                    // disabled={isSubmitting || !isValid}
                     disabled={isSubmitting}
                   >
                     Next
@@ -300,7 +288,7 @@ const Profile: React.FC = () => {
   );
 };
 
-const Wrapper = styled('div')({
+const Wrapper = styled.div({
   minHeight: '120vh',
 });
 
@@ -312,22 +300,21 @@ const CardWrapper = styled(Card)({
   padding: '20px',
 });
 
-const PhoneInputWrapper = styled(PhoneInput)<{ hasError: boolean }>(
-  ({ hasError }) => ({
+const PhoneInputWrapper = styled.div<{ hasError: boolean }>(({ hasError }) => ({
+  width: '100%',
+  border: hasError ? '1px solid red' : '1px solid #ccc',
+  borderRadius: '4px',
+  paddingLeft: '10px',
+  input: {
     width: '100%',
-    border: hasError ? '1px solid red' : '1px solid #ccc',
+    padding: '16.5px 14px',
+    border: 'none',
     borderRadius: '4px',
-    paddingLeft: '10px',
-    input: {
-      width: '100%',
-      padding: '16.5px 14px',
-      border: 'none',
-      borderRadius: '4px',
-      fontSize: '16px',
-      '&:focus': {
-        outline: 'none',
-      },
+    fontSize: '16px',
+    '&:focus': {
+      outline: 'none',
     },
-  })
-);
+  },
+}));
+
 export default Profile;
