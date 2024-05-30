@@ -8,6 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import image from '../../../../../public/Dryer_Master_Serial_Number.jpg';
+import styled from '@emotion/styled';
 
 const SerialNumberHelp: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ const SerialNumberHelp: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Box sx={{ alignItems: 'center', display: 'flex', mt: 2 }}>
+      <Box sx={{ alignItems: 'center', display: 'flex' }}>
         <Typography
           variant="body2"
           gutterBottom
@@ -42,6 +43,12 @@ const SerialNumberHelp: React.FC = () => {
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
           <DialogTitle>Find the Serial Number</DialogTitle>
+          <ListWrapper>
+            <li>
+              The Dryer Master <strong>username</strong> is the same as the
+              Dryer Master serial number.
+            </li>
+          </ListWrapper>
           <DialogContent>
             <Box sx={{ position: 'relative', textAlign: 'center' }}>
               <img
@@ -71,4 +78,11 @@ const SerialNumberHelp: React.FC = () => {
   );
 };
 
+const ListWrapper = styled('ul')`
+  margin-top: -0.5rem;
+  li {
+    padding: 0.3rem;
+    margin: 0rem 1.2rem;
+  }
+`;
 export default SerialNumberHelp;
