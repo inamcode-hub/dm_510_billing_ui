@@ -14,10 +14,10 @@ import {
   Select,
   MenuItem,
   FormHelperText,
-  styled,
   Chip,
   Box,
 } from '@mui/material';
+import styled from '@emotion/styled';
 import NavigatePages from '../components/NavigatePages';
 import {
   setShowPayment,
@@ -360,8 +360,39 @@ const Package: React.FC = () => {
   );
 };
 
-const Wrapper = styled('div')({
-  minHeight: '150vh',
+const Wrapper = styled.div({
+  minHeight: '120vh',
+
+  '.MuiCard-root': {
+    overflow: 'visible', // This allows dropdowns to overlap the card boundaries
+    width: '100%',
+    margin: 'auto',
+    marginTop: '50px',
+    padding: '20px',
+  },
+
+  '@media (max-width: 767px)': {
+    '.MuiCardContent-root': {
+      padding: '0',
+    },
+  },
+  '@media (min-width: 768px)': {
+    '.MuiCard-root': {
+      width: '70%',
+    },
+  },
+
+  '@media (min-width: 1024px)': {
+    '.MuiCard-root': {
+      width: '60%',
+    },
+  },
+
+  '@media (min-width: 1200px)': {
+    '.MuiCard-root': {
+      width: '50%',
+    },
+  },
 });
 
 const CardWrapper = styled(Card)({

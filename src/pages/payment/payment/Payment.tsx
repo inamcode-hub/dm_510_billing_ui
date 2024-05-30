@@ -14,6 +14,7 @@ import AmountCalculator from './components/AmountCalculator';
 import StripeElement from './components/StripeElement';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import styled from '@emotion/styled';
 
 const Payment: React.FC = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const Payment: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div>
+      <Wrapper>
         <NavigatePages />
         <Card
           variant="outlined"
@@ -89,9 +90,44 @@ const Payment: React.FC = () => {
             </Button>
           </CardActions>
         </Card>
-      </div>
+      </Wrapper>
     </React.Fragment>
   );
 };
+
+const Wrapper = styled.div({
+  minHeight: '120vh',
+
+  '.MuiCard-root': {
+    overflow: 'visible', // This allows dropdowns to overlap the card boundaries
+    width: '100%',
+    margin: 'auto',
+    marginTop: '50px',
+    padding: '20px',
+  },
+
+  '@media (max-width: 767px)': {
+    '.MuiCardContent-root': {
+      padding: '0',
+    },
+  },
+  '@media (min-width: 768px)': {
+    '.MuiCard-root': {
+      width: '70%',
+    },
+  },
+
+  '@media (min-width: 1024px)': {
+    '.MuiCard-root': {
+      width: '60%',
+    },
+  },
+
+  '@media (min-width: 1200px)': {
+    '.MuiCard-root': {
+      width: '50%',
+    },
+  },
+});
 
 export default Payment;
