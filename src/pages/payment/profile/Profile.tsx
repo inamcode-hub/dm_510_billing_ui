@@ -23,7 +23,6 @@ import PhoneInput from 'react-phone-number-input';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import * as Yup from 'yup';
 import CountryComponent from './components/CountryComponent';
-import { toast } from 'react-toastify';
 
 // TypeScript definitions
 interface FormValues {
@@ -128,9 +127,6 @@ const Profile: React.FC = () => {
           onSubmit={handleSubmit}
         >
           {({ setFieldValue, values, errors, touched, isSubmitting }) => {
-            if (Object.keys(errors).length > 0) {
-              toast.error('Please fill in all required fields');
-            }
             return (
               <Form>
                 <CardContent>
