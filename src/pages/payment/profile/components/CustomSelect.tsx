@@ -26,19 +26,21 @@ const customStyles: StylesConfig<OptionType, false> = {
         ? '0 0 0 1px #d32f2f'
         : `0 0 0 1px var(--primary)`
       : 'none',
+    fontSize: '16px',
   }),
   placeholder: (provided, state) => ({
     ...provided,
     color: (state.selectProps as CustomSelectProps).hasError
       ? '#d32f2f'
       : provided.color,
-    fontSize: '1rem',
+    fontSize: '16px',
   }),
   singleValue: (provided, state) => ({
     ...provided,
     color: (state.selectProps as CustomSelectProps).hasError
       ? '#d32f2f'
       : provided.color,
+    fontSize: '16px',
   }),
   menu: (provided) => ({
     ...provided,
