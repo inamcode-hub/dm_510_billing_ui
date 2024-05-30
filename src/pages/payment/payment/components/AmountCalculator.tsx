@@ -74,16 +74,21 @@ const AmountCalculator: React.FC = () => {
         <div className="dryermaster-serial-numbers">
           <span>
             {packageSerialNumber.length > 1
-              ? 'Dryermaster Serial Numbers:'
-              : 'Dryermaster Serial Number:'}
+              ? 'Serial numbers'
+              : 'Serial number'}
           </span>
           <span>{packageSerialNumber.join(', ')}</span>
         </div>
         <div className="package-name">
-          <span>Package Name:</span> <span>{packageName}</span>
+          <span>Package</span>
+          <span>
+            {packageName === 'singleDryermaster'
+              ? 'Single Dryermaster'
+              : 'Multi Dryermaster'}
+          </span>
         </div>
         <div className="package-price">
-          <span>Package Price:</span>
+          <span>Price</span>
           <span>{packagePrice.toFixed(2)}</span>
         </div>
         {country === 'CA' ? (
@@ -98,12 +103,12 @@ const AmountCalculator: React.FC = () => {
           </>
         ) : (
           <div className="tax-amount">
-            <span>Tax Amount:</span> <span>0.00 {currency}</span>
+            <span>Tax</span> <span>0.00</span>
           </div>
         )}
         <Divider />
         <div className="total-price">
-          <span>Total Price:</span>
+          <span>Total</span>
           <span>
             {totalPrice.toFixed(2)} {currency}
           </span>
@@ -115,18 +120,21 @@ const AmountCalculator: React.FC = () => {
 
 const Wrapper = styled('div')({
   margin: '1rem 0',
-
   border: '1px solid #ccc',
   borderRadius: '5px',
 
-  '& span:first-of-type': {
-    fontWeight: 'bold',
-  },
+  '& span:first-of-type': {},
   '& div': {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: '0.3rem 0',
     padding: '0.5rem',
+    // payment font
+  },
+  '.total-price': {
+    fontWeight: 'bold',
+    backgroundColor: '#f5f5f5',
+    borderRadius: '5px',
+    '& span:first-of-type': {},
   },
 });
 export default AmountCalculator;
