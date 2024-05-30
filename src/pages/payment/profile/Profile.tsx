@@ -170,6 +170,9 @@ const Profile: React.FC = () => {
                     error={touched.phone && Boolean(errors.phone)}
                   >
                     <PhoneInputWrapper
+                      hasError={
+                        (touched.phone && Boolean(errors.phone)) || false
+                      }
                       international
                       defaultCountry="US"
                       // @ts-ignore
@@ -178,7 +181,7 @@ const Profile: React.FC = () => {
                         setFieldValue('phone', value);
                         handleChange('phone', value);
                       }}
-                      style={{ width: '100%' }} // Ensures full width
+                      style={{ width: '100%' }}
                     />
                     <FormHelperText>
                       {touched.phone && errors.phone
@@ -309,22 +312,22 @@ const CardWrapper = styled(Card)({
   padding: '20px',
 });
 
-const PhoneInputWrapper = styled(PhoneInput)({
-  width: '100%',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  paddingLeft: '10px',
-  input: {
+const PhoneInputWrapper = styled(PhoneInput)<{ hasError: boolean }>(
+  ({ hasError }) => ({
     width: '100%',
-    padding: '16.5px 14px',
-    border: 'none',
+    border: hasError ? '1px solid red' : '1px solid #ccc',
     borderRadius: '4px',
-    fontSize: '16px',
-    // on focus
-    '&:focus': {
-      outline: 'none',
+    paddingLeft: '10px',
+    input: {
+      width: '100%',
+      padding: '16.5px 14px',
+      border: 'none',
+      borderRadius: '4px',
+      fontSize: '16px',
+      '&:focus': {
+        outline: 'none',
+      },
     },
-  },
-});
-
+  })
+);
 export default Profile;
