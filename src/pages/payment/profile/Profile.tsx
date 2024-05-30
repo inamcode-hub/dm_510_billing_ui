@@ -64,7 +64,6 @@ const validationSchema = Yup.object({
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { payment } = useSelector((state: any) => state);
   const {
     showProfile,
     email,
@@ -76,7 +75,7 @@ const Profile: React.FC = () => {
     province,
     country,
     postalCode,
-  } = payment;
+  } = useSelector((state: any) => state.payment);
 
   // Handle change function
   const handleChange = (key: FormValueKey, value: any) => {
