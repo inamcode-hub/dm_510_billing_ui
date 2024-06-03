@@ -31,8 +31,61 @@ For the backend implementation, you can find the code on GitHub:
 
 ### Summary
 
-On a POST request to the server, you only need the `payment_method` ID to charge the customer. This approach allows the frontend developer and backend developer to work through API calls. The frontend creates a `paymentMethodId` and passes it to the server, which then uses the `paymentIntent.create` method to charge the card.
+This approach allows frontend and backend developers to work together through API calls. Below is a step-by-step explanation of how the integration works:
 
-The frontend uses the public key, while the server uses the secret key for more sensitive payment-related changes.
+1. **Frontend Initialization**:
 
-You need to create a POST endpoint at `www.localhost/api/payment`. This endpoint should wait for a POST request that includes the `paymentMethodId`. The server will create a PaymentIntent, charge the card, and send the response back to the API. The frontend can then show the payment success status in the UI. This interaction occurs through API communication.
+   - The frontend initializes Stripe with the public key and uses Stripe Elements to collect card details from the user.
+
+2. **Creating a Payment Method**:
+
+   - When the user submits the payment form, the frontend uses `stripe.createPaymentMethod` to create a PaymentMethod object.
+   - This PaymentMethod object contains the card details and other necessary information.
+
+3. **Sending PaymentMethod ID to the Server**:
+
+   - The frontend sends a POST request to the server at `www.localhost/api/payment` with the `paymentMethodId` obtained from the previous step.
+
+4. **Server Handling the Request**:
+
+   - The server receives the `paymentMethodId` and uses the Stripe secret key to create a PaymentIntent.
+   - The server uses the `paymentIntent.create` method to create a PaymentIntent and confirm the payment using the `paymentMethodId`.
+
+5. **Charging the Card**:
+
+   - If the PaymentIntent creation and confirmation are successful, the card is charged.
+   - The server sends the response back to the frontend with the payment status.
+
+6. **Updating the UI**:
+
+   - The frontend receives the server response and updates the UI to show the payment success status to the user.
+
+7. **Updating the Database**:
+   - On successful payment, the server updates the database to set `customer.has_access` to `true`.
+
+Here's a visual representation of the process:
+
+1. **Frontend (User interaction)**
+
+   - User enters card details -> `stripe.createPaymentMethod` -> PaymentMethod ID
+
+2. **API Call (Frontend to Server)**
+
+   - POST `/api/payment` with PaymentMethod ID
+
+3. **Server (Handling Payment)**
+
+   - Receive PaymentMethod ID -> `paymentIntent.create` -> Charge the card
+
+4. **API Response (Server to Frontend)**
+
+   - Send payment status back to the frontend
+
+5. **Frontend (UI Update)**
+
+   - Update UI with payment success status
+
+6. **Database Update (Server-side)**
+   - Update database: `customer.has_access` to `true`
+
+By following these steps, you can ensure a smooth and secure payment process using Stripe. The frontend handles collecting and sending the payment information, while the backend securely processes the payment using the Stripe API and updates the database accordingly.
