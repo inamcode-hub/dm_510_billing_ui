@@ -42,25 +42,29 @@ This approach allows frontend and backend developers to work together through AP
    - When the user submits the payment form, the frontend uses `stripe.createPaymentMethod` to create a PaymentMethod object.
    - This PaymentMethod object contains the card details and other necessary information.
 
-3. **Sending PaymentMethod ID to the Server**:
+3. **Handling the Submit Request**:
 
-   - The frontend sends a POST request to the server at `www.localhost/api/payment` with the `paymentMethodId` obtained from the previous step.
+   - The frontend sends the PaymentMethod object to Stripe and receives a `paymentMethodId`.
 
-4. **Server Handling the Request**:
+4. **Sending PaymentMethod ID to the Server**:
+
+   - The frontend sends a POST request to the server at `www.localhost/api/payment` with the `paymentMethodId` obtained from Stripe.
+
+5. **Server Handling the Request**:
 
    - The server receives the `paymentMethodId` and uses the Stripe secret key to create a PaymentIntent.
    - The server uses the `paymentIntent.create` method to create a PaymentIntent and confirm the payment using the `paymentMethodId`.
 
-5. **Charging the Card**:
+6. **Charging the Card**:
 
    - If the PaymentIntent creation and confirmation are successful, the card is charged.
    - The server sends the response back to the frontend with the payment status.
 
-6. **Updating the UI**:
+7. **Updating the UI**:
 
    - The frontend receives the server response and updates the UI to show the payment success status to the user.
 
-7. **Updating the Database**:
+8. **Updating the Database**:
    - On successful payment, the server updates the database to set `customer.has_access` to `true`.
 
 Here's a visual representation of the process:
