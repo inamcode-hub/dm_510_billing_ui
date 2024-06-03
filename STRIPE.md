@@ -8,6 +8,8 @@ You can refer to Stripe's official documentation for integrating Stripe with Rea
 
 In this documentation, Stripe uses `stripe.confirmPayment` in the `handleSubmit` function. Instead, in our implementation, we use `stripe.createPaymentMethod` from the Stripe CLI for React and JavaScript.
 
+You can also refer to the Stripe documentation for creating payment methods: [Create Payment Method](https://docs.stripe.com/js/payment_methods/create_payment_method).
+
 ### Implementation
 
 For the frontend implementation, you can find the code on GitHub: [Frontend GitHub Code](https://github.com/inamdryermaster/dm_510_billing_ui/blob/df0a2d3295606cb80eb74f99a375b10788b6f92d/src/pages/payment/payment/components/StripeElement.tsx#L49).
